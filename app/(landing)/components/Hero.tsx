@@ -14,11 +14,11 @@ export default function Hero() {
         </p>
 
         <div className="mt-6 flex gap-3">
-          <Button>
-            <Link href="#contact">
+          <Link href="#contact">
+            <Button>
               Get a Free Quote
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </div>
 

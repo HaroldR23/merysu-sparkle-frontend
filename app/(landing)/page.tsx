@@ -1,8 +1,8 @@
 import ContactForm from "./components/ContactForm";
 import Hero from "./components/Hero";
-import Services from "./components/Services";
+import Services from "./components/Services/Services";
 import WhoWeAre from "./components/WhoWeAre";
-import WhyChoose from "./components/WhyChoose";
+import WhyChoose from "./components/WhyChoose/WhyChoose";
 
 
 export default function Home() {

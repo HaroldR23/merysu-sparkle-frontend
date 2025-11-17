@@ -16,11 +16,11 @@ export default function Header() {
         <nav className="hidden md:flex gap-6 items-center">
           <a href="#about" className="hover:text-primary">About</a>
           <a href="#services" className="hover:text-primary">Services</a>
-          <Button>
-            <Link href="#contact">
+          <Link href="#contact">
+            <Button>
               Get a Free Quote
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </nav>
       </div>
     </header>
