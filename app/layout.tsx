@@ -1,5 +1,7 @@
 import Footer from './(landing)/components/Footer';
 import Header from './(landing)/components/Header';
+import LanguageSelector from './(landing)/components/LanguageSelector/LanguageSelector';
+import PreferencesProvider from './contexts/Preferences/PreferencesProvider';
 import './globals.css';
 import React from "react";
 
@@ -14,11 +16,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-background text-foreground">
-        <Header />
-        <main className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <PreferencesProvider> 
+          <Header />
+          <main className="flex-1">
+            {children}
+          </main>
+          <LanguageSelector />
+          <Footer />
+        </PreferencesProvider>
       </body>
     </html>
   );
