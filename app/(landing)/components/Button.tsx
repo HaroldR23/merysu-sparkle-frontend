@@ -1,3 +1,5 @@
+'use client';
+
 import { ButtonProps } from "../types/props";
 
 export default function Button({ children, onClick }: ButtonProps) {
