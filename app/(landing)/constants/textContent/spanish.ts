@@ -64,6 +64,13 @@ export const CONTACT_SUBMIT_BUTTON_SPA = "Enviar Mensaje";
 export const CONTACT_EMAIL_LABEL_SPA = "Correo: ";
 export const CONTACT_PHONE_LABEL_SPA = "Teléfono: ";
 export const CONTACT_HOURS_LABEL_SPA = "Horario: Lunes a Sábado, 8:00 AM – 6:00 PM";
+export const CONTACT_SERVICE_PLACEHOLDER_SPA = "Selecciona un servicio...";
+export const CONTACT_ERROR_REQUIRED_SPA = "Este campo es obligatorio.";
+export const CONTACT_ERROR_PHONE_INVALID_SPA = "Por favor, introduce un número de teléfono válido.";
+export const CONTACT_ERROR_EMAIL_INVALID_SPA = "Por favor, introduce una dirección de correo electrónico válida.";
+export const CONTACT_SUCCESS_MESSAGE_SPA = "¡Tu solicitud ha sido enviada!";
+export const CONTACT_ERROR_MESSAGE_SPA = "Hubo un error al enviar tu solicitud. Por favor, inténtalo de nuevo más tarde.";
+export const CONTACT_LOADING_BUTTON_SPA = "Enviando...";
 
 // FOOTER SECTION
 export const FOOTER_COPYRIGHT_SPA = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. Todos los derechos reservados.`;

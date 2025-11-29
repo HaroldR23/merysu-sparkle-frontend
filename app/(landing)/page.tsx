@@ -1,4 +1,4 @@
-import ContactForm from "./components/ContactForm";
+// import ContactForm from "./components/ContactForm";
 import Hero from "./components/Hero";
 import Services from "./components/Services/Services";
 import WhoWeAre from "./components/WhoWeAre";
@@ -18,9 +18,9 @@ export default function Home() {
       <div className="mt-16">
         <WhyChoose />
       </div>
-      <div className="mt-16">
+      {/* <div className="mt-16">
         <ContactForm />
-      </div>
+      </div> */}
     </div>
   );
 }

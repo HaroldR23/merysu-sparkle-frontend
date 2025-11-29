@@ -8,3 +8,11 @@ export type WhyChooseItem = {
   title: string;
   desc: string;
 };
+
+export type QuoteRequestFormData = {
+  name: string;
+  email: string;
+  phone: string;
+  service: string;
+  message: string;
+};

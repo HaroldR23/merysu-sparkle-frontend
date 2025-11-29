@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Button from "./Button";
+// import Button from "./Button";
 import { WEBSITE_COPY } from "../constants/textContent/textContent";
 import usePreferencesContext from "../hooks/usePreferencesContext";
 
@@ -22,11 +22,11 @@ export default function Header() {
         <nav className="hidden md:flex gap-6 items-center">
           <a href="#about" className="hover:text-primary">{WEBSITE_COPY[language].HEADER_ABOUT}</a>
           <a href="#services" className="hover:text-primary">{WEBSITE_COPY[language].HEADER_SERVICES}</a>
-          <Link href="#contact">
+          {/* <Link href="#contact">
             <Button>
               {WEBSITE_COPY[language].HEADER_CTA}
             </Button>
-          </Link>
+          </Link> */}
         </nav>
       </div>
     </header>
