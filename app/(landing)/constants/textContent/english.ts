@@ -65,6 +65,13 @@ export const CONTACT_SUBMIT_BUTTON_ENG = "Send Message";
 export const CONTACT_EMAIL_LABEL_ENG = "Email: ";
 export const CONTACT_PHONE_LABEL_ENG = "Phone: ";
 export const CONTACT_HOURS_LABEL_ENG = "Hours: Mon–Sat, 8:00 AM – 6:00 PM";
+export const CONTACT_SERVICE_PLACEHOLDER_ENG = "Select a service...";
+export const CONTACT_ERROR_REQUIRED_ENG = "This field is required.";
+export const CONTACT_ERROR_PHONE_INVALID_ENG = "Please enter a valid phone number.";
+export const CONTACT_ERROR_EMAIL_INVALID_ENG = "Please enter a valid email address.";
+export const CONTACT_SUCCESS_MESSAGE_ENG = "Your request has been sent!";
+export const CONTACT_ERROR_MESSAGE_ENG = "There was an error sending your request. Please try again later.";
+export const CONTACT_LOADING_BUTTON_ENG = "Sending...";
 
 // FOOTER SECTION
 export const FOOTER_COPYRIGHT_ENG = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. All rights reserved.`;
