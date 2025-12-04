@@ -7,6 +7,7 @@ import { QuoteRequestFormData } from "../types/types";
 import Button from "./Button";
 import { sendQuoteRequestService } from "@/app/services/sendQuoteRequest";
 import { Alert, ClickAwayListener } from "@mui/material";
+import Turnstile from "react-turnstile";
 
 export default function ContactForm() {
   const initialFormData: QuoteRequestFormData = {
@@ -15,6 +16,7 @@ export default function ContactForm() {
     phone: "",
     service: "",
     message: "",
+    captchaToken: undefined,
   };
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<QuoteRequestFormData>(initialFormData);
@@ -63,9 +65,19 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setIsLoading(false);
+      return;
+    }
+
+    if (!formData.captchaToken) {
+      setAlertType("error");
+      setAlertMessage(
+        WEBSITE_COPY[language].CONTACT_ERROR_CAPTCHA_REQUIRED
+      );
       setIsLoading(false);
       return;
     }
@@ -80,12 +92,12 @@ export default function ContactForm() {
 
       setFormData(initialFormData);
 
-    } catch (error) {
-      console.error("Error sending quote request:", error);
-
+    } catch (error: unknown) {
       setAlertType("error");
       setAlertMessage(
-        WEBSITE_COPY[language].CONTACT_ERROR_MESSAGE // Set the right error message validating the error code 
+        error instanceof Error
+          ? error.message
+          : WEBSITE_COPY[language].CONTACT_ERROR_MESSAGE
       );
     } finally {
       setIsLoading(false);
@@ -126,10 +138,10 @@ export default function ContactForm() {
           {WEBSITE_COPY[language].CONTACT_TITLE}
         </h2>
 
-        {/* <p className="text-center text-slate-600 mt-3 leading-relaxed max-w-xl mx-auto">
+        <p className="text-center text-slate-600 mt-3 leading-relaxed max-w-xl mx-auto">
           {WEBSITE_COPY[language].CONTACT_SUBTITLE}
-        </p> */}
-{/* 
+        </p>
+
         <form
           className="mt-10 grid gap-4 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200"
           onSubmit={handleSubmit}
@@ -198,10 +210,17 @@ export default function ContactForm() {
                        focus:ring-accent/30 transition resize-none"
           ></textarea>
 
+          <Turnstile
+            sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+            onSuccess={(token) => setFormData({ ...formData, captchaToken: token })}
+            theme="light"
+            className="mt-4"
+          />
+
           <div className="flex justify-end">
             <Button type="submit" disabled={isLoading}> {isLoading ? WEBSITE_COPY[language].CONTACT_LOADING_BUTTON : WEBSITE_COPY[language].CONTACT_SUBMIT_BUTTON}</Button>
           </div>
-        </form> */}
+        </form>
 
         <div className="mt-10 text-center text-slate-600 leading-relaxed">
           <p>{WEBSITE_COPY[language].CONTACT_EMAIL_LABEL} contact@merysu-cleaning.com</p>

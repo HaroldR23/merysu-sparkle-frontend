@@ -71,6 +71,7 @@ export const CONTACT_ERROR_EMAIL_INVALID_SPA = "Por favor, introduce una direcci
 export const CONTACT_SUCCESS_MESSAGE_SPA = "¡Tu solicitud ha sido enviada!";
 export const CONTACT_ERROR_MESSAGE_SPA = "Hubo un error al enviar tu solicitud. Por favor, inténtalo de nuevo más tarde.";
 export const CONTACT_LOADING_BUTTON_SPA = "Enviando...";
+export const CONTACT_ERROR_CAPTCHA_REQUIRED_SPA = "Por favor, completa la verificación CAPTCHA.";
 
 // FOOTER SECTION
 export const FOOTER_COPYRIGHT_SPA = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. Todos los derechos reservados.`;
