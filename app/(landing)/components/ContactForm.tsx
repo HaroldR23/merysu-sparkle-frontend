@@ -126,10 +126,10 @@ export default function ContactForm() {
           {WEBSITE_COPY[language].CONTACT_TITLE}
         </h2>
 
-        <p className="text-center text-slate-600 mt-3 leading-relaxed max-w-xl mx-auto">
+        {/* <p className="text-center text-slate-600 mt-3 leading-relaxed max-w-xl mx-auto">
           {WEBSITE_COPY[language].CONTACT_SUBTITLE}
-        </p>
-
+        </p> */}
+{/* 
         <form
           className="mt-10 grid gap-4 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200"
           onSubmit={handleSubmit}
@@ -201,7 +201,7 @@ export default function ContactForm() {
           <div className="flex justify-end">
             <Button type="submit" disabled={isLoading}> {isLoading ? WEBSITE_COPY[language].CONTACT_LOADING_BUTTON : WEBSITE_COPY[language].CONTACT_SUBMIT_BUTTON}</Button>
           </div>
-        </form>
+        </form> */}
 
         <div className="mt-10 text-center text-slate-600 leading-relaxed">
           <p>{WEBSITE_COPY[language].CONTACT_EMAIL_LABEL} contact@merysu-cleaning.com</p>
