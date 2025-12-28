@@ -15,4 +15,5 @@ export type QuoteRequestFormData = {
   phone: string;
   service: string;
   message: string;
+  captchaToken?: string;
 };

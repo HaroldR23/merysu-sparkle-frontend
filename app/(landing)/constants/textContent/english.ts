@@ -72,6 +72,7 @@ export const CONTACT_ERROR_EMAIL_INVALID_ENG = "Please enter a valid email addre
 export const CONTACT_SUCCESS_MESSAGE_ENG = "Your request has been sent!";
 export const CONTACT_ERROR_MESSAGE_ENG = "There was an error sending your request. Please try again later.";
 export const CONTACT_LOADING_BUTTON_ENG = "Sending...";
+export const CONTACT_ERROR_CAPTCHA_REQUIRED_ENG = "Please complete the CAPTCHA verification.";
 
 // FOOTER SECTION
 export const FOOTER_COPYRIGHT_ENG = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. All rights reserved.`;

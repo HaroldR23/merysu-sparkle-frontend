@@ -7,16 +7,23 @@ export const sendQuoteRequestService = async (formData: QuoteRequestFormData) =>
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        service: formData.service,
+        message: formData.message,
+        captcha_token: formData.captchaToken,
+      }),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to send quote request');
+      const responseText = await response.json();
+      console.log(response.status);
+      throw new Error(responseText.detail || 'Failed to send quote request');
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Error sending quote request:', error);
     throw error;
   }
 };
