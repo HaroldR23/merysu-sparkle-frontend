@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { WEBSITE_COPY } from "../constants/textContent/textContent";
 import usePreferencesContext from "../hooks/usePreferencesContext";
 import { QuoteRequestFormData } from "../types/types";
 import Button from "./Button";
 import { sendQuoteRequestService } from "@/app/services/sendQuoteRequest";
 import { Alert, ClickAwayListener } from "@mui/material";
-import Turnstile from "react-turnstile";
+import Turnstile, { useTurnstile } from "react-turnstile";
 
 export default function ContactForm() {
   const initialFormData: QuoteRequestFormData = {
@@ -25,6 +25,8 @@ export default function ContactForm() {
   const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
 
   const { language } = usePreferencesContext();
+
+  const turnstile = useTurnstile();
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -61,6 +63,14 @@ export default function ContactForm() {
 
     setErrors(prev => ({ ...prev, [name]: "" }));
   };
+
+  const handleCaptcha = useCallback((token: string) => {
+    setFormData(prev => ({ ...prev, captchaToken: token }));
+  }, []);
+
+  const clearCaptcha = useCallback(() => {
+    setFormData(prev => ({ ...prev, captchaToken: undefined }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,6 +111,9 @@ export default function ContactForm() {
       );
     } finally {
       setIsLoading(false);
+
+      clearCaptcha();
+      turnstile.reset();
     }
   };
 
@@ -212,7 +225,9 @@ export default function ContactForm() {
 
           <Turnstile
             sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
-            onSuccess={(token) => setFormData({ ...formData, captchaToken: token })}
+            onSuccess={handleCaptcha}
+            onExpire={clearCaptcha}
+            refreshExpired="auto"
             theme="light"
             className="mt-4"
           />
