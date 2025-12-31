@@ -122,7 +122,7 @@ export default function ContactForm() {
      ${errors[field] ? "border-red-500 ring-2 ring-red-300" : "border-slate-300 focus:outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/30"}`;
 
   return (
-    <section id="contact" className="px-6 m-6">
+    <section id="contact" className="px-4 sm:px-4 py-10 p-4 rounded-2xl shadow-md border border-slate-200">
       {alertMessage && (
         <div className="flex justify-center mt-6">
           <ClickAwayListener onClickAway={() => setAlertMessage(null)}>
@@ -145,8 +145,7 @@ export default function ContactForm() {
           </ClickAwayListener>
         </div>
       )}
-      <div className="max-w-3xl mx-auto m-6">
-
+      <div className="mt-5">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800">
           {WEBSITE_COPY[language].CONTACT_TITLE}
         </h2>
@@ -156,7 +155,7 @@ export default function ContactForm() {
         </p>
 
         <form
-          className="mt-10 grid gap-4 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200"
+          className="mt-5 max-w-3xl mx-auto flex flex-col gap-4 bg-white p-4 rounded-2xl shadow-md border border-slate-200"
           onSubmit={handleSubmit}
         >
           <div>
@@ -229,18 +228,21 @@ export default function ContactForm() {
             onExpire={clearCaptcha}
             refreshExpired="auto"
             theme="light"
-            className="mt-4"
+            className="mt-4 flex justify-center"
+            size="normal"
+            language="en"
           />
 
           <div className="flex justify-end">
             <Button type="submit" disabled={isLoading}> {isLoading ? WEBSITE_COPY[language].CONTACT_LOADING_BUTTON : WEBSITE_COPY[language].CONTACT_SUBMIT_BUTTON}</Button>
           </div>
         </form>
-
-        <div className="mt-10 text-center text-slate-600 leading-relaxed">
-          <p>{WEBSITE_COPY[language].CONTACT_EMAIL_LABEL} contact@merysu-cleaning.com</p>
-          <p>{WEBSITE_COPY[language].CONTACT_PHONE_LABEL} +1 (669) 278-0462</p>
-          <p>{WEBSITE_COPY[language].CONTACT_HOURS_LABEL}</p>
+        <div className="flex justify-center mt-10 px-2 mb-5">
+          <div className="flex items-start flex-col text-slate-600 leading-relaxed">
+            <p>{WEBSITE_COPY[language].CONTACT_EMAIL_LABEL} contact@merysu-cleaning.com</p>
+            <p>{WEBSITE_COPY[language].CONTACT_PHONE_LABEL} +1 (669) 278-0462</p>
+            <p>{WEBSITE_COPY[language].CONTACT_HOURS_LABEL}</p>
+          </div>
         </div>
       </div>
     </section>
