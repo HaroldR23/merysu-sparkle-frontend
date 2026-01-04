@@ -1,9 +1,9 @@
-import Footer from './(landing)/components/Footer';
-import Header from './(landing)/components/Header';
-import LanguageSelector from './(landing)/components/LanguageSelector/LanguageSelector';
-import PreferencesProvider from './contexts/Preferences/PreferencesProvider';
-import './globals.css';
+import Header from './components/Header';
+import LanguageSelector from './components/LanguageSelector/LanguageSelector';
+import PreferencesProvider from '../contexts/Preferences/PreferencesProvider';
+import '../../app/globals.css';
 import React from "react";
+import Footer from '../common_components/Footer';
 
 export const metadata = {
   title: 'MerySu Sparkle Cleaning',

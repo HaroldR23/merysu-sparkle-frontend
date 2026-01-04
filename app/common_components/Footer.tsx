@@ -1,8 +1,8 @@
 'use client';
 
 import Image from "next/image"
-import usePreferencesContext from "../hooks/usePreferencesContext";
-import { WEBSITE_COPY } from "../constants/textContent/textContent";
+import { WEBSITE_COPY } from "../(landing)/constants/textContent/textContent";
+import usePreferencesContext from "../(landing)/hooks/usePreferencesContext";
 
 export default function Footer() {
 
