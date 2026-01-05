@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard, ClipboardList, Users, Building, DollarSign, FileText, Settings, Sparkles, X } from 'lucide-react';
+import { LayoutDashboard, ClipboardList, Users, Building, DollarSign, FileText, Sparkles, X } from 'lucide-react';
 
 interface SidebarProps {
   activeSection: string;
@@ -9,7 +9,7 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-export function Sidebar({ activeSection, onNavigate, isOpen, onClose }: SidebarProps) {
+const Sidebar = ({ activeSection, onNavigate, isOpen, onClose }: SidebarProps) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'services', label: 'Servicios', icon: ClipboardList },
@@ -17,7 +17,6 @@ export function Sidebar({ activeSection, onNavigate, isOpen, onClose }: SidebarP
     { id: 'employees', label: 'Empleados', icon: Users },
     { id: 'finances', label: 'Finanzas', icon: DollarSign },
     { id: 'reports', label: 'Reportes', icon: FileText },
-    { id: 'settings', label: 'Configuración', icon: Settings },
   ];
 
   return (
@@ -33,7 +32,7 @@ export function Sidebar({ activeSection, onNavigate, isOpen, onClose }: SidebarP
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-teal-500 rounded-lg flex items-center justify-center">
               <Sparkles className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -77,19 +76,8 @@ export function Sidebar({ activeSection, onNavigate, isOpen, onClose }: SidebarP
           })}
         </ul>
       </nav>
-
-      {/* User Info */}
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-sm font-medium text-gray-700">AD</span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">Admin</p>
-            <p className="text-xs text-gray-500 truncate">admin@merysu.com</p>
-          </div>
-        </div>
-      </div>
     </aside>
   );
-}
+};
+
+export default Sidebar;
