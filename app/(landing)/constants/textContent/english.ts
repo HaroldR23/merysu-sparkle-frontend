@@ -3,6 +3,8 @@ export const COMPANY_NAME = "MerySu Sparkle Cleaning";
 export const HEADER_ABOUT_ENG = "About us";
 export const HEADER_SERVICES_ENG = "Services";
 export const HEADER_CTA_ENG = "Get a Free Quote";
+export const HEADER_TESTIMONIALS_ENG = "Testimonials";
+export const HEADER_FAQ_ENG = "FAQ";
 
 // HERO SECTION
 export const HERO_TITLE_ENG = "A Sparkling Clean You Can Trust ✨";

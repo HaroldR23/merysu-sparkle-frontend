@@ -1,4 +1,4 @@
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import LanguageSelector from './components/LanguageSelector/LanguageSelector';
 import PreferencesProvider from '../contexts/Preferences/PreferencesProvider';
 import '../../app/globals.css';
