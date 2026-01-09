@@ -6,9 +6,15 @@ export const HEADER_TESTIMONIALS_SPA = "Testimonios";
 export const HEADER_FAQ_SPA = "Preguntas Frecuentes";
 
 // HERO SECTION
-export const HERO_TITLE_SPA = "Una Limpieza Impecable en la que Puedes Confiar ✨";
+export const HERO_TITLE_SPA = ["Una Limpieza", "Impecable", "en la que Puedes Confiar ✨"];
 export const HERO_SUBTITLE_SPA = "Servicios profesionales de limpieza para hogares, oficinas y alquileres vacacionales: fiables, minuciosos y siempre con una sonrisa.";
 export const HERO_CTA_SPA = "Reservar Ahora";
+export const HERO_FEEDBACK_HAPPY_CLIENTS_SPA = "Clientes Felices";
+export const HERO_FEEDBACK_RATING_SPA = "Calificación";
+export const HERO_FEEDBACK_GUARANTEED_SPA = "Garantizado";
+export const HERO_CLEANING_SERVICE_TAGLINE_SPA = "Servicio Profesional de Limpieza";
+export const HERO_FLOATING_CERTIFIED_SPA = ["Certificado", "y Asegurado"];
+export const HERO_FLOATING_ECO_FRIENDLY_SPA = ["Ecológico", "Productos Verdes"];
 
 // WHO WE ARE SECTION
 export const WHO_WE_ARE_TITLE_SPA = "Quiénes Somos";

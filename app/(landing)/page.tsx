@@ -1,5 +1,5 @@
 import ContactForm from "./components/ContactForm";
-import Hero from "./components/Hero";
+import Hero from "./components/Hero/Hero";
 import Services from "./components/Services/Services";
 import WhoWeAre from "./components/WhoWeAre";
 import WhyChoose from "./components/WhyChoose/WhyChoose";
@@ -7,7 +7,7 @@ import WhyChoose from "./components/WhyChoose/WhyChoose";
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div>
       <Hero />
       <div className="mt-16">
         <WhoWeAre />
