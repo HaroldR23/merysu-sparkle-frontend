@@ -1,8 +1,7 @@
 "use client"
 
-import { CheckCircle2, ChevronDown, Leaf, Sparkles } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
-import Image from "next/image";
 import BackgroundStyle from "./BackgroundStyle";
 import TextContent from "./TextContent";
 import usePreferencesContext from "../../hooks/usePreferencesContext";
