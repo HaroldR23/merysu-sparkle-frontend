@@ -2,6 +2,8 @@
 export const HEADER_ABOUT_SPA = "¿Quiénes Somos?";
 export const HEADER_SERVICES_SPA = "Servicios";
 export const HEADER_CTA_SPA = "Obtén una Cotización Gratis";
+export const HEADER_TESTIMONIALS_SPA = "Testimonios";
+export const HEADER_FAQ_SPA = "Preguntas Frecuentes";
 
 // HERO SECTION
 export const HERO_TITLE_SPA = "Una Limpieza Impecable en la que Puedes Confiar ✨";
