@@ -7,9 +7,15 @@ export const HEADER_TESTIMONIALS_ENG = "Testimonials";
 export const HEADER_FAQ_ENG = "FAQ";
 
 // HERO SECTION
-export const HERO_TITLE_ENG = "A Sparkling Clean You Can Trust ✨";
+export const HERO_TITLE_ENG = ["A Sparkling", "Clean", "You Can Trust ✨"];
 export const HERO_SUBTITLE_ENG = "Professional cleaning services for homes, offices, and vacation rentals — reliable, thorough, and always with a smile.";
 export const HERO_CTA_ENG = "Book Now";
+export const HERO_FEEDBACK_HAPPY_CLIENTS_ENG = "Happy Clients";
+export const HERO_FEEDBACK_RATING_ENG = "Rating";
+export const HERO_FEEDBACK_GUARANTEED_ENG = "Guaranteed";
+export const HERO_CLEANING_SERVICE_TAGLINE_ENG = "Professional Cleaning Service";
+export const HERO_FLOATING_CERTIFIED_ENG = ["Certified", "& Insured"];
+export const HERO_FLOATING_ECO_FRIENDLY_ENG = ["Eco-Friendly", "Green Products"];
 
 // WHO WE ARE SECTION
 export const WHO_WE_ARE_TITLE_ENG = "Who We Are";
