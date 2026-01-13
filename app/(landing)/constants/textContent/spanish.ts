@@ -60,9 +60,10 @@ export const WHO_WE_ARE_DESC_ITEMS_SPA = [
 ];
 
 // SERVICES SECTION
-export const SERVICES_TITLE_SPA = "Nuestros Servicios";
+export const SERVICES_TITLE_SPA = ["Nuestros", "Servicios"];
 export const SERVICES_CTA_SPA = "Explorar Todos los Servicios";
 export const SERVICES_SHOW_LESS_CTA_SPA = "Mostrar Menos";
+export const SERVICES_SUBTITLE_SPA = "Soluciones de limpieza completas para cada necesidad";
 
 export const SERVICES_HOME_CLEANING_SPA = "Limpieza del Hogar";
 export const SERVICES_OFFICE_CLEANING_SPA = "Limpieza de Oficinas";

@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { services } from "../../constants/services";
 import { Languages } from "@/app/contexts/models";
+import { WEBSITE_COPY } from "../../constants/textContent/textContent";
 
 const Services = ({ language }: { language: Languages}) => {
   return (
@@ -15,10 +16,10 @@ const Services = ({ language }: { language: Languages}) => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Nuestros <span className="bg-linear-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">Servicios</span>
+              {WEBSITE_COPY[language].SERVICES_TITLE[0]} <span className="bg-linear-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">{WEBSITE_COPY[language].SERVICES_TITLE[1]}</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Soluciones de limpieza completas para cada necesidad
+              {WEBSITE_COPY[language].SERVICES_SUBTITLE}
             </p>
           </motion.div>
 

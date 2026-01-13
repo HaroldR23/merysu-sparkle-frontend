@@ -62,9 +62,10 @@ export const WHO_WE_ARE_DESC_ITEMS_ENG = [
 ];
 
 // SERVICES SECTION
-export const SERVICES_TITLE_ENG = "Our Cleaning Services";
+export const SERVICES_TITLE_ENG = ["Our", "Cleaning Services"];
 export const SERVICES_CTA_ENG = "Explore All Services";
 export const SERVICES_SHOW_LESS_CTA_ENG = "Show Less";
+export const SERVICES_SUBTITLE_ENG = "Comprehensive cleaning solutions for every need";
 
 export const SERVICES_HOME_CLEANING_ENG = "Home Cleaning";
 export const SERVICES_OFFICE_CLEANING_ENG = "Office Cleaning";
