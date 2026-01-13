@@ -36,16 +36,28 @@ export const HOW_IT_WORKS_STEP_3_DESCRIPTION_SPA = "Nuestro equipo se encarga de
 export const HOW_IT_WORKS_STEP_4_DESCRIPTION_SPA = "Disfruta de un espacio limpio, fresco y brillante.";
 
 // WHO WE ARE SECTION
-export const WHO_WE_ARE_TITLE_SPA = "Quiénes Somos";
+export const WHO_WE_ARE_TITLE_SPA = ["Quiénes", "Somos"];
 export const WHO_WE_ARE_DESC_SPA = [
   "En",
-  `  Nos comprometemos a ofrecer servicios de limpieza impecables, fiables y amables.
+  `  nos comprometemos a ofrecer servicios de limpieza impecables, fiables y amables.
   Ya sea en una vivienda, una oficina o un alquiler vacacional,
   tratamos cada espacio como si fuera nuestro, con cuidado, precisión y una sonrisa.`,
   "Nuestra misión es sencilla:",
   "hacer tu vida más fácil y tus espacios más limpios. ",
   `Con personal cualificado, productos ecológicos y un enfoque de servicio personalizado, garantizamos una experiencia brillante en todo momento.`
 ]
+export const WHO_WE_ARE_TITLE_ITEMS_SPA = [
+  "Personal Certificado",
+  "Productos Ecológicos",
+  "Atención 24/7",
+  "Garantía Total"
+];
+export const WHO_WE_ARE_DESC_ITEMS_SPA = [
+  "Equipo profesional y capacitado",
+  "Seguros y amigables con el planeta",
+  "Siempre disponibles para ti",
+  "100% satisfacción garantizada"
+];
 
 // SERVICES SECTION
 export const SERVICES_TITLE_SPA = "Nuestros Servicios";
