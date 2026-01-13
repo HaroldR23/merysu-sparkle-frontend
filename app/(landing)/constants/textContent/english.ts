@@ -17,6 +17,25 @@ export const HERO_CLEANING_SERVICE_TAGLINE_ENG = "Professional Cleaning Service"
 export const HERO_FLOATING_CERTIFIED_ENG = ["Certified", "& Insured"];
 export const HERO_FLOATING_ECO_FRIENDLY_ENG = ["Eco-Friendly", "Green Products"];
 
+// TRUST BADGES SECTION
+export const TRUST_BADGES_DESCRIPTION_ITEMS_ENG = [
+  "Verified & Insured",
+  "Quality Certification",
+  "Trained Staff",
+  "100% Eco-Friendly"
+];
+
+// HOW IT WORKS SECTION
+export const HOW_IT_WORKS_TITLE_ENG = ["How", "It Works?"];
+export const HOW_IT_WORKS_STEP_1_TITLE_ENG = "Request a Quote";
+export const HOW_IT_WORKS_STEP_2_TITLE_ENG = "Schedule Your Service";
+export const HOW_IT_WORKS_STEP_3_TITLE_ENG = "Relax and Enjoy";
+export const HOW_IT_WORKS_STEP_4_TITLE_ENG = "Spotless Space";
+export const HOW_IT_WORKS_STEP_1_DESCRIPTION_ENG = "Contact us via WhatsApp, phone, or email with your needs.";
+export const HOW_IT_WORKS_STEP_2_DESCRIPTION_ENG = "Choose the date and time that works best for you.";
+export const HOW_IT_WORKS_STEP_3_DESCRIPTION_ENG = "Our team takes care of everything with care and precision.";
+export const HOW_IT_WORKS_STEP_4_DESCRIPTION_ENG = "Enjoy a clean, fresh, and sparkling space.";
+
 // WHO WE ARE SECTION
 export const WHO_WE_ARE_TITLE_ENG = "Who We Are";
 export const WHO_WE_ARE_DESC_ENG = [

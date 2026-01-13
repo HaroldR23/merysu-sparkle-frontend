@@ -16,6 +16,25 @@ export const HERO_CLEANING_SERVICE_TAGLINE_SPA = "Servicio Profesional de Limpie
 export const HERO_FLOATING_CERTIFIED_SPA = ["Certificado", "y Asegurado"];
 export const HERO_FLOATING_ECO_FRIENDLY_SPA = ["Ecológico", "Productos Verdes"];
 
+// TRUST BADGES SECTION
+export const TRUST_BADGES_DESCRIPTION_ITEMS_SPA = [
+  "Verificado & Asegurado",
+  "Certificación de Calidad",
+  "Personal Capacitado",
+  "100% Ecológico"
+];
+
+//HOW IT WORKS SECTION
+export const HOW_IT_WORKS_TITLE_SPA = ["¿Cómo", "Funciona?"];
+export const HOW_IT_WORKS_STEP_1_TITLE_SPA = "Solicita una Cotización";
+export const HOW_IT_WORKS_STEP_2_TITLE_SPA = "Programa tu Servicio";
+export const HOW_IT_WORKS_STEP_3_TITLE_SPA = "Relájate y Disfruta";
+export const HOW_IT_WORKS_STEP_4_TITLE_SPA = "Espacio Impecable";
+export const HOW_IT_WORKS_STEP_1_DESCRIPTION_SPA = "Contáctanos vía WhatsApp, teléfono o email con tus necesidades.";
+export const HOW_IT_WORKS_STEP_2_DESCRIPTION_SPA = "Elige la fecha y hora que mejor te convenga.";
+export const HOW_IT_WORKS_STEP_3_DESCRIPTION_SPA = "Nuestro equipo se encarga de todo con cuidado y precisión.";
+export const HOW_IT_WORKS_STEP_4_DESCRIPTION_SPA = "Disfruta de un espacio limpio, fresco y brillante.";
+
 // WHO WE ARE SECTION
 export const WHO_WE_ARE_TITLE_SPA = "Quiénes Somos";
 export const WHO_WE_ARE_DESC_SPA = [
