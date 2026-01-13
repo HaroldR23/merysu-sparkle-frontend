@@ -60,9 +60,10 @@ export const WHO_WE_ARE_DESC_ITEMS_SPA = [
 ];
 
 // SERVICES SECTION
-export const SERVICES_TITLE_SPA = "Nuestros Servicios";
+export const SERVICES_TITLE_SPA = ["Nuestros", "Servicios"];
 export const SERVICES_CTA_SPA = "Explorar Todos los Servicios";
 export const SERVICES_SHOW_LESS_CTA_SPA = "Mostrar Menos";
+export const SERVICES_SUBTITLE_SPA = "Soluciones de limpieza completas para cada necesidad";
 
 export const SERVICES_HOME_CLEANING_SPA = "Limpieza del Hogar";
 export const SERVICES_OFFICE_CLEANING_SPA = "Limpieza de Oficinas";
@@ -79,6 +80,8 @@ export const SERVICES_MOVE_IN_OUT_DESC_SPA= "Deja tu antiguo o nuevo lugar impec
 export const SERVICES_AIRBNB_CLEANING_DESC_SPA= "Rápidos cambios para impresionar a cada huésped.";
 export const SERVICES_POST_CONSTRUCTION_DESC_SPA= "Elimina polvo, escombros y residuos después de las renovaciones para un acabado impecable.";
 export const SERVICES_EVENT_CLEANUP_DESC_SPA= "Limpieza eficiente antes y después de fiestas, reuniones y eventos sociales.";
+export const SERVICES_RECURRING_SERVICES_SPA = "Servicios Recurrentes";
+export const SERVICES_RECURRING_SERVICES_DESC_SPA = "Programa tu limpieza semanal, quincenal o mensual.";
 
 // WHY CHOOSE SECTION
 export const WHY_CHOOSE_TITLE_SPA = "¿Por qué Elegir MerySu Sparkle Cleaning?";
