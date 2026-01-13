@@ -37,7 +37,7 @@ export const HOW_IT_WORKS_STEP_3_DESCRIPTION_ENG = "Our team takes care of every
 export const HOW_IT_WORKS_STEP_4_DESCRIPTION_ENG = "Enjoy a clean, fresh, and sparkling space.";
 
 // WHO WE ARE SECTION
-export const WHO_WE_ARE_TITLE_ENG = "Who We Are";
+export const WHO_WE_ARE_TITLE_ENG = ["Who", "We Are"];
 export const WHO_WE_ARE_DESC_ENG = [
   "At",
   ` we are committed to delivering spotless, reliable, and friendly
@@ -48,6 +48,19 @@ export const WHO_WE_ARE_DESC_ENG = [
   `With trained staff, eco-friendly products, and a personalized
   service approach, we ensure a sparkling experience every time.`
 ]
+export const WHO_WE_ARE_TITLE_ITEMS_ENG = [
+  "Certified Staff",
+  "Eco-Friendly Products",
+  "24/7 Support",
+  "Total Guarantee"
+];
+export const WHO_WE_ARE_DESC_ITEMS_ENG = [
+  "Professional and trained team",
+  "Safe and planet-friendly",
+  "Always available for you",
+  "100% satisfacción garantizada"
+];
+
 // SERVICES SECTION
 export const SERVICES_TITLE_ENG = "Our Cleaning Services";
 export const SERVICES_CTA_ENG = "Explore All Services";

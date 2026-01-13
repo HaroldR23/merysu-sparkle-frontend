@@ -5,7 +5,7 @@ import Hero from "./components/Hero/Hero";
 import HowItWorks from "./components/HowItWorks";
 import Services from "./components/Services/Services";
 import TrustBadges from "./components/TrustBadges";
-import WhoWeAre from "./components/WhoWeAre";
+import WhoWeAre from "./components/WhoWeAre/WhoWeAre";
 import WhyChoose from "./components/WhyChoose/WhyChoose";
 import usePreferencesContext from "./hooks/usePreferencesContext";
 
@@ -22,7 +22,7 @@ export default function Home() {
         <HowItWorks language={language} />
       </div>
       <div className="mt-16">
-        <WhoWeAre />
+        <WhoWeAre language={language} />
       </div>
       <div className="mt-16">
         <Services />
