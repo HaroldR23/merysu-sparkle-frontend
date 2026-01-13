@@ -2,6 +2,7 @@ export type Service = {
   title: string;
   desc: string;
   icon?: React.ReactNode;
+  color: string;
 };
 
 export type WhyChooseItem = {

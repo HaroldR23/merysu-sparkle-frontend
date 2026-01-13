@@ -25,7 +25,7 @@ export default function Home() {
         <WhoWeAre language={language} />
       </div>
       <div className="mt-16">
-        <Services />
+        <Services language={language} />
       </div>
       <div className="mt-16">
         <WhyChoose />

@@ -81,6 +81,8 @@ export const SERVICES_MOVE_IN_OUT_DESC_ENG= "Leave your old or new place immacul
 export const SERVICES_AIRBNB_CLEANING_DESC_ENG= "Fast turnovers to impress every guest.";
 export const SERVICES_POST_CONSTRUCTION_DESC_ENG= "Remove dust, debris, and residue after renovations for a flawless finish.";
 export const SERVICES_EVENT_CLEANUP_DESC_ENG= "Efficient before-and-after cleaning for parties, gatherings, and social events.";
+export const SERVICES_RECURRING_SERVICES_ENG = "Recurring Services";
+export const SERVICES_RECURRING_SERVICES_DESC_ENG = "Schedule your cleaning weekly, bi-weekly, or monthly.";
 
 // WHY CHOOSE SECTION
 export const WHY_CHOOSE_TITLE_ENG = "Why Choose MerySu Sparkle Cleaning?";
