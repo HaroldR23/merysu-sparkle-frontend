@@ -85,12 +85,14 @@ export const SERVICES_RECURRING_SERVICES_DESC_SPA = "Programa tu limpieza semana
 
 // WHY CHOOSE SECTION
 export const WHY_CHOOSE_TITLE_SPA = "¿Por qué Elegir MerySu Sparkle Cleaning?";
+export const WHY_CHOOSE_SUBTITLE_SPA =  "Nos destacamos por nuestro compromiso con la excelencia y la satisfacción del cliente";
 export const WHY_CHOOSE_ITEMS_SPA = [
   { title: "Profesionales de Confianza", desc: "Limpiadores experimentados, fiables y con verificación de antecedentes." },
   { title: "Atención al Detalle", desc: "Limpiamos cada rincón, nada se pasa por alto." },
   { title: "Horario Flexible", desc: "Nos adaptamos a tu tiempo y necesidades." },
   { title: "Productos Ecológicos", desc: "Seguros para tu familia, mascotas y el planeta." },
-  { title: "Satisfacción Garantizada", desc: "Tu felicidad es nuestra máxima prioridad." }
+  { title: "Satisfacción Garantizada", desc: "Tu felicidad es nuestra máxima prioridad." },
+  { title: "Servicio Personalizado", desc: "Garantizamos una experiencia brillante en todo momento." }
 ];
 
 // CONTACT SECTION

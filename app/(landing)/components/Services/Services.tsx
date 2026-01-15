@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { services } from "../../constants/services";
 import { Languages } from "@/app/contexts/models";
 import { WEBSITE_COPY } from "../../constants/textContent/textContent";
+import ServiceCard from "./ServiceCard";
 
 const Services = ({ language }: { language: Languages}) => {
   return (
@@ -39,31 +40,7 @@ const Services = ({ language }: { language: Languages}) => {
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {services(language).map((service, index) => (
-              <motion.div
-                key={index}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.5
-                    }
-                  }
-                }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden"
-              >
-                <div className={`absolute inset-0 bg-linear-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-                
-                <div className={`w-16 h-16 bg-linear-to-br ${service.color} rounded-2xl flex items-center justify-center mb-4 text-white shadow-lg group-hover:scale-110`}>
-                  {service.icon}
-                </div>
-                
-                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                <p className="text-gray-600">{service.desc}</p>
-                
-              </motion.div>
+              <ServiceCard key={index} service={service} />
             ))}
           </motion.div>
         </div>
