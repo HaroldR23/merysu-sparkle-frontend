@@ -8,6 +8,7 @@ export type Service = {
 export type WhyChooseItem = {
   title: string;
   desc: string;
+  icon: React.ReactNode;
 };
 
 export type QuoteRequestFormData = {

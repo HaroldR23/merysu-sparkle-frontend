@@ -87,12 +87,14 @@ export const SERVICES_RECURRING_SERVICES_DESC_ENG = "Schedule your cleaning week
 
 // WHY CHOOSE SECTION
 export const WHY_CHOOSE_TITLE_ENG = "Why Choose MerySu Sparkle Cleaning?";
+export const WHY_CHOOSE_SUBTITLE_ENG = "We stand out for our commitment to excellence and customer satisfaction";
 export const WHY_CHOOSE_ITEMS_ENG = [
   { title: "Trusted Professionals", desc: "Experienced, reliable, and background-checked cleaners." },
   { title: "Attention to Detail", desc: "We clean every corner — nothing gets overlooked." },
   { title: "Flexible Scheduling", desc: "We work around your time and needs." },
   { title: "Eco-Friendly Products", desc: "Safe for your family, pets, and the planet." },
-  { title: "Satisfaction Guaranteed", desc: "Your happiness is our top priority." }
+  { title: "Satisfaction Guaranteed", desc: "Your happiness is our top priority." },
+  { title: "Personalized Service", desc: "We ensure a sparkling experience every time." }
 ];
 
 // CONTACT SECTION

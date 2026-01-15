@@ -28,7 +28,7 @@ export default function Home() {
         <Services language={language} />
       </div>
       <div className="mt-16">
-        <WhyChoose />
+        <WhyChoose language={language}/>
       </div>
       <div className="mt-16">
         <ContactForm />

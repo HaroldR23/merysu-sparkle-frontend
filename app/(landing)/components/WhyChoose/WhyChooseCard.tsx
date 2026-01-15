@@ -1,18 +1,31 @@
 'use client';
 
-import { CheckCircle2 } from "lucide-react";
+import { motion } from "motion/react";
 import { WhyChooseItem } from "../../types/types";
 
-export function WhyChooseCard({ item }: { item: WhyChooseItem }) {
+const WhyChooseCard = ({ item }: { item: WhyChooseItem }) => {
   return (
-    <div
-      className="flex gap-4 items-start p-1 md:p-2 lg:p-4 rounded-xl hover:bg-slate-50 transition"
-    >
-      <CheckCircle2 className="text-accent w-7 h-7 shrink-0" />
-      <div>
-        <h4 className="font-semibold text-lg text-gray-800">{item.title}</h4>
-        <p className="text-slate-600 text-sm mt-1">{item.desc}</p>
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.5
+          }
+        }
+      }}
+      whileHover={{ scale: 1.05 }}
+      className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20"
+      >
+      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+        {item.icon}
       </div>
-    </div>
+      <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+      <p className="text-cyan-100">{item.desc}</p>
+  </motion.div>
   );
 };
+
+export default WhyChooseCard;
