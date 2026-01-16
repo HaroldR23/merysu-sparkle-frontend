@@ -7,7 +7,7 @@ import { WEBSITE_COPY } from "../constants/textContent/textContent";
 
 const HowItWorks = ({ language }: { language: Languages }) => {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden" id="howItWorks">
         <div className="absolute inset-0 bg-linear-to-b from-white via-cyan-50/30 to-white"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div

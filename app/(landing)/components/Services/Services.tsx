@@ -8,7 +8,7 @@ import ServiceCard from "./ServiceCard";
 
 const Services = ({ language }: { language: Languages}) => {
   return (
-      <section id="servicios" className="py-10">
+      <section id="services" className="py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

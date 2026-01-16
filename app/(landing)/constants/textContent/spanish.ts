@@ -130,3 +130,5 @@ export const CONTACT_WHATSAPP_MESSAGE_SPA = "¡Hola! Me gustaría solicitar una 
 export const FOOTER_COPYRIGHT_SPA = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. Todos los derechos reservados.`;
 export const FOOTER_PRIVACY_SPA = "Política de Privacidad";
 export const FOOTER_TERMS_SPA = "Términos y Condiciones";
+export const FOOTER_TAGLINE_SPA = "Servicios profesionales de limpieza que puedes confiar.";
+export const COMPANY_TITLE_SPA = "Compañía";

@@ -132,3 +132,5 @@ export const CONTACT_WHATSAPP_MESSAGE_ENG = "Hello! I would like to request a qu
 export const FOOTER_COPYRIGHT_ENG = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. All rights reserved.`;
 export const FOOTER_PRIVACY_ENG = "Privacy Policy";
 export const FOOTER_TERMS_ENG = "Terms and Conditions";
+export const FOOTER_TAGLINE_ENG = "Professional cleaning services you can trust.";
+export const COMPANY_TITLE_ENG = "Company";
