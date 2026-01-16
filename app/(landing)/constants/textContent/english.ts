@@ -118,6 +118,15 @@ export const CONTACT_SUCCESS_MESSAGE_ENG = "Your request has been sent!";
 export const CONTACT_ERROR_MESSAGE_ENG = "There was an error sending your request. Please try again later.";
 export const CONTACT_LOADING_BUTTON_ENG = "Sending...";
 export const CONTACT_ERROR_CAPTCHA_REQUIRED_ENG = "Please complete the CAPTCHA verification.";
+export const CONTACT_US_ITEMS_ENG = [
+  ["Immediate response", "Chat Now"],
+  ["Mon - Sat: 8:00 AM - 6:00 PM", "+1 (669) 278-0462"],
+  ["Response within 24h", "contact@merysu-cleaning.com"]
+];
+export const CONTACT_SEND_WHATSAPP_ENG = "Send WhatsApp";
+export const CONTACT_SEND_EMAIL_ENG = "Send Email";
+export const CONTACT_FORM_TITLE_ENG = "Request a Free Quote";
+export const CONTACT_WHATSAPP_MESSAGE_ENG = "Hello! I would like to request a quote for cleaning services.";
 
 // FOOTER SECTION
 export const FOOTER_COPYRIGHT_ENG = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. All rights reserved.`;
