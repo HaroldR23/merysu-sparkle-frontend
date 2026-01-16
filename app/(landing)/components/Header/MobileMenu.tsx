@@ -8,16 +8,21 @@ const MobileMenu = ({ language }: { language: Languages }) => {
     <motion.div 
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="md:hidden bg-white border-t"
+      className="md:hidden bg-white border-t pb-5"
     >
-      <div className="px-4 py-4 space-y-3">
+      <div className="px-4 py-4 flex flex-col gap-4">
         <a href="#services" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_SERVICES}</a>
         <a href="#about" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_ABOUT}</a>
-        <a href="#testimonials" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_TESTIMONIALS}</a>
-        <a href="#faq" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_FAQ}</a>
-        <a href="#contact" className="block py-2 px-4 bg-linear-to-r from-cyan-500 to-blue-500 text-white rounded-full text-center">
+        <a href="#howItWorks" className={anchorStyle}>{WEBSITE_COPY[language].HOW_IT_WORKS_TITLE.map(element => `${element} `)}</a>
+        <a href="#whyChooseUs" className={anchorStyle}>{WEBSITE_COPY[language].WHY_CHOOSE_TITLE}</a>
+        <motion.a
+          href="#contact"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-6 py-2.5 w-fit bg-linear-to-r from-cyan-500 to-blue-500 text-white rounded-full hover:shadow-lg transition-shadow"
+        >
           {WEBSITE_COPY[language].HEADER_CTA}
-        </a>
+        </motion.a>
       </div>
     </motion.div>
   );
