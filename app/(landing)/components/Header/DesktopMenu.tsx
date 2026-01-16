@@ -8,8 +8,8 @@ const DesktopMenu = ({ language }: { language: Languages }) => {
     <div className="hidden md:flex items-center gap-8">
       <a href="#services" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_SERVICES}</a>
       <a href="#about" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_ABOUT}</a>
-      <a href="#testimonials" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_TESTIMONIALS}</a>
-      <a href="#faq" className={anchorStyle}>{WEBSITE_COPY[language].HEADER_FAQ}</a>
+      <a href="#howItWorks" className={anchorStyle}>{WEBSITE_COPY[language].HOW_IT_WORKS_TITLE.map(element => `${element} `)}</a>
+      <a href="#whyChooseUs" className={anchorStyle}>{WEBSITE_COPY[language].WHY_CHOOSE_TITLE}</a>
       <motion.a
         href="#contact"
         whileHover={{ scale: 1.05 }}

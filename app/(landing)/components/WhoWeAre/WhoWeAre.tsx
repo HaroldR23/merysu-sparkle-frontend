@@ -7,7 +7,7 @@ import WhoWeAreItems from "./WhoWeAreItems";
 
 const WhoWeAre = ({ language }: { language: Languages }) => {
   return (
-      <section id="nosotros" className="py-24 bg-linear-to-br from-white via-blue-50/30 to-cyan-50/30">
+      <section id="about" className="py-24 bg-linear-to-br from-white via-blue-50/30 to-cyan-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
