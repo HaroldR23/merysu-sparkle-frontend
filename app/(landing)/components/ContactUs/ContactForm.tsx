@@ -3,16 +3,17 @@
 import { motion } from "motion/react";
 
 import { useState, useCallback } from "react";
-import { WEBSITE_COPY } from "../constants/textContent/textContent";
-import usePreferencesContext from "../hooks/usePreferencesContext";
-import { QuoteRequestFormData } from "../types/types";
-import Button from "./Button";
+
 import { sendQuoteRequestService } from "@/app/services/sendQuoteRequest";
 import { Alert, ClickAwayListener } from "@mui/material";
 import Turnstile, { useTurnstile } from "react-turnstile";
 import { Mail, MessageCircle } from "lucide-react";
+import { QuoteRequestFormData } from "../../types/types";
+import { Languages } from "@/app/contexts/models";
+import { WEBSITE_COPY } from "../../constants/textContent/textContent";
+import Button from "../Button";
 
-export default function ContactForm() {
+export default function ContactForm({ language }: { language: Languages }) {
   const initialFormData: QuoteRequestFormData = {
     name: "",
     email: "",
@@ -26,8 +27,6 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<"success" | "error" | null>(null);
-
-  const { language } = usePreferencesContext();
 
   const turnstile = useTurnstile();
 
@@ -125,6 +124,9 @@ Me gustaría solicitar un servicio de *${formData.service}*.
       );
     } finally {
       setIsLoading(false);
+
+      clearCaptcha();
+      turnstile.reset();
     }
   };
 

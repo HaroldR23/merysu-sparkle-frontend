@@ -3,8 +3,8 @@ import { motion } from "motion/react";
 import { contactUsItems } from "../../constants/contactUsItems";
 import ContactUsItem from "./ContactUsItem";
 import { Languages } from "@/app/contexts/models";
-import ContactForm from "../ContactForm";
 import { WEBSITE_COPY } from "../../constants/textContent/textContent";
+import ContactForm from "./ContactForm";
 
 const ContactUs = ({ language }: { language: Languages }) => {
   return (
@@ -38,7 +38,7 @@ const ContactUs = ({ language }: { language: Languages }) => {
               ))
             }
           </div>
-          <ContactForm />
+          <ContactForm language={language}/>
         </div>
       </section>
   );
