@@ -116,6 +116,15 @@ export const CONTACT_SUCCESS_MESSAGE_SPA = "¡Tu solicitud ha sido enviada!";
 export const CONTACT_ERROR_MESSAGE_SPA = "Hubo un error al enviar tu solicitud. Por favor, inténtalo de nuevo más tarde.";
 export const CONTACT_LOADING_BUTTON_SPA = "Enviando...";
 export const CONTACT_ERROR_CAPTCHA_REQUIRED_SPA = "Por favor, completa la verificación CAPTCHA.";
+export const CONTACT_US_ITEMS_SPA = [
+  ["Respuesta inmediata", "Chat Ahora"],
+  ["Lun - Sab: 8:00 AM - 6:00 PM", "+1 (669) 278-0462"],
+  ["Respuesta en 24h", "contact@merysu-cleaning.com"]
+];
+export const CONTACT_SEND_WHATSAPP_SPA = "Enviar WhatsApp";
+export const CONTACT_SEND_EMAIL_SPA = "Enviar Correo";
+export const CONTACT_FORM_TITLE_SPA = "Solicita una Cotización Gratis";
+export const CONTACT_WHATSAPP_MESSAGE_SPA = "¡Hola! Me gustaría solicitar una cotización para servicios de limpieza.";
 
 // FOOTER SECTION
 export const FOOTER_COPYRIGHT_SPA = `© ${new Date().getFullYear()} MerySu Sparkle Cleaning. Todos los derechos reservados.`;

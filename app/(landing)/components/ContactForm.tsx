@@ -1,5 +1,7 @@
 'use client';
 
+import { motion } from "motion/react";
+
 import { useState, useCallback } from "react";
 import { WEBSITE_COPY } from "../constants/textContent/textContent";
 import usePreferencesContext from "../hooks/usePreferencesContext";
@@ -8,6 +10,7 @@ import Button from "./Button";
 import { sendQuoteRequestService } from "@/app/services/sendQuoteRequest";
 import { Alert, ClickAwayListener } from "@mui/material";
 import Turnstile, { useTurnstile } from "react-turnstile";
+import { Mail, MessageCircle } from "lucide-react";
 
 export default function ContactForm() {
   const initialFormData: QuoteRequestFormData = {
@@ -28,7 +31,7 @@ export default function ContactForm() {
 
   const turnstile = useTurnstile();
 
-  const validate = () => {
+  const validateSubmission = () => {
     const newErrors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
@@ -45,6 +48,20 @@ export default function ContactForm() {
       newErrors.email = WEBSITE_COPY[language].CONTACT_ERROR_REQUIRED;
     } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = WEBSITE_COPY[language].CONTACT_ERROR_EMAIL_INVALID;
+    }
+
+    if (!formData.service.trim()) {
+      newErrors.service = WEBSITE_COPY[language].CONTACT_ERROR_REQUIRED;
+    }
+
+    return newErrors;
+  };
+
+  const validateWhatsAppSubmission = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = WEBSITE_COPY[language].CONTACT_ERROR_REQUIRED;
     }
 
     if (!formData.service.trim()) {
@@ -72,11 +89,49 @@ export default function ContactForm() {
     setFormData(prev => ({ ...prev, captchaToken: undefined }));
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmitWhatsAppSubmission = () => {
     setIsLoading(true);
 
-    const validationErrors = validate();
+    const whatsappNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || "";
+    const message = `Hola, mi nombre es *${formData.name}*.
+
+Me gustaría solicitar un servicio de *${formData.service}*.
+• *Mensaje adicional:* ${formData.message}`;
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+    const validationErrors = validateWhatsAppSubmission();
+  
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setIsLoading(false);
+      return;
+    }
+  
+    try {
+      window.open(whatsappURL, "_blank");
+      setAlertType("success");
+      setAlertMessage(
+        WEBSITE_COPY[language].CONTACT_SUCCESS_MESSAGE
+      );
+      setFormData(initialFormData);
+
+    } catch (error: unknown) {
+      setAlertType("error");
+      setAlertMessage(
+        error instanceof Error
+          ? error.message
+          : WEBSITE_COPY[language].CONTACT_ERROR_MESSAGE
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmitEmailSubmission = async () => {
+    setIsLoading(true);
+
+    const validationErrors = validateSubmission();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setIsLoading(false);
@@ -118,11 +173,16 @@ export default function ContactForm() {
   };
 
   const inputClasses = (field: string) =>
-    `w-full rounded-lg border px-4 py-3 transition 
-     ${errors[field] ? "border-red-500 ring-2 ring-red-300" : "border-slate-300 focus:outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/30"}`;
+    `w-full px-4 py-3 rounded-xl border transition-all 
+     ${errors[field] ? "border-red-500 ring-2 ring-red-300" : "border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"}`;
 
   return (
-    <section id="contact" className="px-4 sm:px-4 py-10 p-4 rounded-2xl shadow-md border border-slate-200">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="mt-16 max-w-2xl mx-auto bg-white rounded-2xl p-8 shadow-lg border border-gray-100"
+    >
       {alertMessage && (
         <div className="flex justify-center mt-6">
           <ClickAwayListener onClickAway={() => setAlertMessage(null)}>
@@ -138,6 +198,7 @@ export default function ContactForm() {
                 fontSize: "0.95rem",
                 display: "flex",
                 alignItems: "center",
+                marginBottom: "16px",
               }}
             >
               {alertMessage}
@@ -145,21 +206,17 @@ export default function ContactForm() {
           </ClickAwayListener>
         </div>
       )}
-      <div className="mt-5">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800">
-          {WEBSITE_COPY[language].CONTACT_TITLE}
-        </h2>
-
-        <p className="text-center text-slate-600 mt-3 leading-relaxed max-w-xl mx-auto">
-          {WEBSITE_COPY[language].CONTACT_SUBTITLE}
-        </p>
-
-        <form
-          className="mt-5 max-w-3xl mx-auto flex flex-col gap-4 bg-white p-4 rounded-2xl shadow-md border border-slate-200"
-          onSubmit={handleSubmit}
-        >
+      <h3 className="text-2xl font-bold mb-6 text-center">
+        {WEBSITE_COPY[language].CONTACT_FORM_TITLE}
+      </h3>
+      <form
+        className="space-y-4"
+      >
+      <div className="grid md:grid-cols-2 gap-4">
           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{WEBSITE_COPY[language].CONTACT_NAME_PLACEHOLDER}</label>
             <input
+              type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -170,7 +227,9 @@ export default function ContactForm() {
           </div>
 
           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{WEBSITE_COPY[language].CONTACT_PHONE_LABEL}</label>
             <input
+              type="tel" 
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -179,38 +238,42 @@ export default function ContactForm() {
             />
             {errors.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
           </div>
+        </div>
 
-          <div>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder={WEBSITE_COPY[language].CONTACT_EMAIL_PLACEHOLDER}
-              className={inputClasses("email")}
-            />
-            {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder={WEBSITE_COPY[language].CONTACT_EMAIL_PLACEHOLDER}
+            className={inputClasses("email")}
+          />
+          {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+        </div>
 
-          <div>
-            <select
-              name="service"
-              value={formData.service}
-              onChange={handleChange}
-              className={inputClasses("service")}
-            >
-              <option value="">{WEBSITE_COPY[language].CONTACT_SERVICE_PLACEHOLDER}</option>
-              <option>{WEBSITE_COPY[language].SERVICES_HOME_CLEANING}</option>
-              <option>{WEBSITE_COPY[language].SERVICES_OFFICE_CLEANING}</option>
-              <option>{WEBSITE_COPY[language].SERVICES_DEEP_CLEANING}</option>
-              <option>{WEBSITE_COPY[language].SERVICES_MOVE_IN_OUT}</option>
-              <option>{WEBSITE_COPY[language].SERVICES_AIRBNB_CLEANING}</option>
-              <option>{WEBSITE_COPY[language].SERVICES_POST_CONSTRUCTION}</option>
-              <option>{WEBSITE_COPY[language].SERVICES_EVENT_CLEANUP}</option>
-            </select>
-            {errors.service && <p className="text-red-600 text-sm mt-1">{errors.service}</p>}
-          </div>
-
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">{WEBSITE_COPY[language].CONTACT_SERVICE_PLACEHOLDER}</label>
+          <select
+            name="service"
+            value={formData.service}
+            onChange={handleChange}
+            className={inputClasses("service")}
+          >
+            <option value="">{WEBSITE_COPY[language].CONTACT_SERVICE_PLACEHOLDER}</option>
+            <option>{WEBSITE_COPY[language].SERVICES_HOME_CLEANING}</option>
+            <option>{WEBSITE_COPY[language].SERVICES_OFFICE_CLEANING}</option>
+            <option>{WEBSITE_COPY[language].SERVICES_DEEP_CLEANING}</option>
+            <option>{WEBSITE_COPY[language].SERVICES_MOVE_IN_OUT}</option>
+            <option>{WEBSITE_COPY[language].SERVICES_AIRBNB_CLEANING}</option>
+            <option>{WEBSITE_COPY[language].SERVICES_POST_CONSTRUCTION}</option>
+            <option>{WEBSITE_COPY[language].SERVICES_EVENT_CLEANUP}</option>
+          </select>
+          {errors.service && <p className="text-red-600 text-sm mt-1">{errors.service}</p>}
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">{WEBSITE_COPY[language].CONTACT_MESSAGE_PLACEHOLDER}</label>
           <textarea
             name="message"
             value={formData.message}
@@ -218,33 +281,42 @@ export default function ContactForm() {
             placeholder={WEBSITE_COPY[language].CONTACT_MESSAGE_PLACEHOLDER}
             rows={4}
             className="w-full rounded-lg border border-slate-300 px-4 py-3 
-                       focus:outline-none focus:border-accent/60 focus:ring-2 
-                       focus:ring-accent/30 transition resize-none"
+            focus:outline-none focus:border-accent/60 focus:ring-2 
+            focus:ring-accent/30 transition resize-none"
           ></textarea>
-
-          <Turnstile
-            sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
-            onSuccess={handleCaptcha}
-            onExpire={clearCaptcha}
-            refreshExpired="auto"
-            theme="light"
-            className="mt-4 flex justify-center"
-            size="normal"
-            language="en"
-          />
-
-          <div className="flex justify-end">
-            <Button type="submit" disabled={isLoading}> {isLoading ? WEBSITE_COPY[language].CONTACT_LOADING_BUTTON : WEBSITE_COPY[language].CONTACT_SUBMIT_BUTTON}</Button>
-          </div>
-        </form>
-        <div className="flex justify-center mt-10 px-2 mb-5">
-          <div className="flex items-start flex-col text-slate-600 leading-relaxed">
-            <p>{WEBSITE_COPY[language].CONTACT_EMAIL_LABEL} contact@merysu-cleaning.com</p>
-            <p>{WEBSITE_COPY[language].CONTACT_PHONE_LABEL} +1 (669) 278-0462</p>
-            <p>{WEBSITE_COPY[language].CONTACT_HOURS_LABEL}</p>
-          </div>
         </div>
-      </div>
-    </section>
+
+        <Turnstile
+          sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+          onSuccess={handleCaptcha}
+          onExpire={clearCaptcha}
+          refreshExpired="auto"
+          theme="light"
+          className="mt-4 flex justify-center"
+          size="normal"
+          language="en"
+        />
+        <div className="flex space-x-4 ">
+          <Button
+            type="button"
+            onClick={handleSubmitEmailSubmission}
+            color="from-cyan-500 to-blue-500"
+            disabled={isLoading}
+          >
+            {WEBSITE_COPY[language].CONTACT_SEND_EMAIL}
+            <Mail className="w-6 h-6" />
+          </Button>
+          <Button
+            type="button"
+            onClick={handleSubmitWhatsAppSubmission}
+            color="from-green-400 to-emerald-500"
+            disabled={isLoading}
+          >
+            {WEBSITE_COPY[language].CONTACT_SEND_WHATSAPP}
+            <MessageCircle className="w-6 h-6" />
+          </Button>
+        </div>
+      </form>
+    </motion.div>
   );
 }

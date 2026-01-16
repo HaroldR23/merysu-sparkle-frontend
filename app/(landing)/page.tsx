@@ -1,6 +1,6 @@
 'use client';
 
-import ContactForm from "./components/ContactForm";
+import ContactUs from "./components/ContactUs/ContactUs";
 import Hero from "./components/Hero/Hero";
 import HowItWorks from "./components/HowItWorks";
 import Services from "./components/Services/Services";
@@ -28,10 +28,10 @@ export default function Home() {
         <Services language={language} />
       </div>
       <div className="mt-16">
-        <WhyChoose language={language}/>
+        <WhyChoose language={language} />
       </div>
       <div className="mt-16">
-        <ContactForm />
+        <ContactUs language={language} />
       </div>
     </div>
   );
