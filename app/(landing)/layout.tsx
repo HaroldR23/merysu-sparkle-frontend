@@ -4,6 +4,7 @@ import PreferencesProvider from '../contexts/Preferences/PreferencesProvider';
 import '../../app/globals.css';
 import React from "react";
 import Footer from '../common_components/Footer';
+import WhatsAppContact from './components/WhatsAppContact';
 
 export const metadata = {
   title: 'MerySu Sparkle Cleaning',
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="flex-1">
             {children}
           </main>
+          <WhatsAppContact />
           <LanguageSelector />
           <Footer />
         </PreferencesProvider>

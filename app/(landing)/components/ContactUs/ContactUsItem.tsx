@@ -11,6 +11,8 @@ const ContactUsItem = ({
   return (
     <motion.a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
