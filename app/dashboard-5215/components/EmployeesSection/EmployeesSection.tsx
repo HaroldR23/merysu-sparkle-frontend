@@ -1,17 +1,21 @@
 'use client';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Users, Clock, DollarSign, ClipboardList, TrendingUp } from 'lucide-react';
+import { Users, Clock, DollarSign, ClipboardList, TrendingUp, Plus } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDashboardContext } from '../../hooks/useDashboardContext';
+import NewEmployeeModal from './NewEmployeeModal';
+import { CreateEmployeeData } from '@/app/contexts/models';
 
 export function EmployeesSection() {
+  const [showModal, setShowModal] = useState(false);
   const { 
     employees, 
     employeeMetrics,
     employeesLoading, 
     employeesError, 
+    createEmployee,
     fetchEmployees 
   } = useDashboardContext();
 
@@ -28,6 +32,10 @@ export function EmployeesSection() {
   const totalHours = employeeMetrics?.totalHours || 0;
   const totalCost = employeeMetrics?.totalCost || 0;
   const totalServicesCount = employeeMetrics?.totalServices || 0;
+
+  const handleSaveEmployee = (data: CreateEmployeeData) => {
+    createEmployee(data);
+  };
 
   if (employeesLoading) {
     return (
@@ -52,9 +60,19 @@ export function EmployeesSection() {
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">Empleados</h1>
-        <p className="text-gray-500 mt-1 text-sm sm:text-base">Gestión de equipo y productividad</p>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">Empleados</h1>
+          <p className="text-gray-500 mt-1 text-sm sm:text-base">Gestión de equipo y productividad</p>
+        </div>
+        <button
+          onClick={() => setShowModal(true)}
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+        >
+          <Plus className="w-5 h-5" />
+          <span className="hidden sm:inline">Nuevo Empleado</span>
+          <span className="sm:hidden">Nuevo</span>
+        </button>
       </div>
 
       {/* Summary Cards */}
@@ -180,6 +198,12 @@ export function EmployeesSection() {
           </ResponsiveContainer>
         </div>
       </div>
+       {showModal && (
+        <NewEmployeeModal
+          onClose={() => setShowModal(false)}
+          onSave={handleSaveEmployee}
+        />
+      )}
     </div>
   );
 };

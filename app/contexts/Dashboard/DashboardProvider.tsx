@@ -6,12 +6,13 @@ import {
   Service, 
   Employee, 
   CreateServiceData,
-  EmployeeMetrics
+  EmployeeMetrics,
+  CreateEmployeeData
 } from "../models";
 import { fetchServicesService } from "../../services/fetchServicesService";
 import { createServiceService } from "../../services/createServiceService";
 import { fetchEmployeesService } from "../../services/fetchEmployeesService";
-import { createEmployeeService, CreateEmployeeData } from "../../services/createEmployeeService";
+import { createEmployeeService } from "../../services/createEmployeeService";
 
 const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   // Services State
@@ -101,6 +102,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Create Employee
   const createEmployee = useCallback(async (employeeData: CreateEmployeeData) => {
+    console.log("Creando empleado con datos:", employeeData); // Debug: Ver datos del nuevo empleado
     try {
       const newEmployee = await createEmployeeService(employeeData);
       setEmployees(prev => [...prev, newEmployee]);
