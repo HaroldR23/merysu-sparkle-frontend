@@ -2,9 +2,9 @@ import {
   Service, 
   Employee, 
   CreateServiceData,
-  EmployeeMetrics
+  EmployeeMetrics,
+  CreateEmployeeData
 } from "../models";
-import { CreateEmployeeData } from "../../services/createEmployeeService";
 
 export interface DashboardContextProps {
   // Services: Note: It's missing to get the employee and client lists to show in the create service form, but I want to get this merged first and then add that in a next PR to avoid making this too big
