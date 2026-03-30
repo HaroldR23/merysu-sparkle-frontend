@@ -17,19 +17,19 @@ const Dashboard = () => {
   const renderContent = () => {
     switch (activeSection) {
       case 'dashboard':
-        return <DashboardOverview />;
-      case 'services':
-        return <ServicesSection />;
-      case 'reports':
-        return <ReportsSection />;
-      case 'clients':
-        return <ClientsSection />;
+        // return <DashboardOverview />;
+      // case 'services':
+      //   return <ServicesSection />;
+      // case 'reports':
+      //   return <ReportsSection />;
+      // case 'clients':
+      //   return <ClientsSection />;
       case 'employees':
         return <EmployeesSection />;
-      case 'finances':
-        return <FinancesSection />;
+      // case 'finances':
+      //   return <FinancesSection />;
       default:
-        return <DashboardOverview />;
+        return <EmployeesSection />;
     }
   };
   return (

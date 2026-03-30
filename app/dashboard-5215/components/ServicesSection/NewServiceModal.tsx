@@ -1,31 +1,37 @@
 import { useState } from 'react';
 import { X, Calendar, MapPin, DollarSign, Users } from 'lucide-react';
+import { useDashboardContext } from '../../hooks/useDashboardContext';
+import { CreateServiceData } from '@/app/contexts/models';
 
 interface NewServiceModalProps {
   onClose: () => void;
 }
 
 export function NewServiceModal({ onClose }: NewServiceModalProps) {
-  const [formData, setFormData] = useState({
-    fecha: '',
-    horaInicio: '',
-    horaFin: '',
-    cliente: '',
-    direccion: '',
-    tipoServicio: '',
-    empleados: [] as string[],
-    horasTrabajadas: '',
-    valorHora: '',
-    costoTotal: '',
-    precioCobrado: '',
-    distancia: '',
-    observaciones: '',
+  const [formData, setFormData] = useState<CreateServiceData>({
+    address: '',
+    date: '',
+    customerName: '',
+    distanceKm: 0,
+    endTime: '',
+    hourlyRate: 0,
+    chargedPrice: 0,
+    serviceType: '',
+    startTime: '',
+    totalCost: 0,
+    internalNotes: '',
+    employeeIds: [],
+    customerId: '',
+    workedHours: 0,
   });
+  
+  const { createService } = useDashboardContext();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
     console.log('Form data:', formData);
+    await createService(formData);
     onClose();
   };
 
