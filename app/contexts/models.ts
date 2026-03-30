@@ -61,6 +61,31 @@ export interface Employee {
   productivity?: number; // It is gonna be calculated in the backend. So far, it is not being sent by the API, but it is expected to be added in the future.
 }
 
+export interface CreateEmployeeData {
+  name: string;
+  phoneNumber: string;
+  hourlyRate: number;
+  entryDate: string;
+  status: 'activo' | 'inactivo';
+  notes: string;
+}
+export interface EmployeeDashboard {
+  employees: Employee[];
+  metrics: EmployeeMetrics;
+}
+export interface DashboardMetrics {
+  serviciosRealizados: number;
+  serviciosRealizadosChange: number;
+  ingresosTotales: number;
+  ingresosTotalesChange: number;
+  costosTotales: number;
+  costosTotalesChange: number;
+  margenPromedio: number;
+  margenPromedioChange: number;
+  horasTrabajadas: number;
+  horasTrabajadasChange: number;
+}
+
 // API State Types
 export interface LoadingState {
   services: boolean;
