@@ -1,65 +1,54 @@
+'use client';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Users, Clock, DollarSign, ClipboardList, TrendingUp } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-interface Employee {
-  id: string;
-  nombre: string;
-  horasTrabajadas: number;
-  costoMensual: number;
-  serviciosRealizados: number;
-  productividad: number;
-}
-
-const mockEmployees: Employee[] = [
-  {
-    id: '1',
-    nombre: 'María González',
-    horasTrabajadas: 168,
-    costoMensual: 3360,
-    serviciosRealizados: 42,
-    productividad: 95,
-  },
-  {
-    id: '2',
-    nombre: 'Juan Pérez',
-    horasTrabajadas: 156,
-    costoMensual: 3120,
-    serviciosRealizados: 38,
-    productividad: 88,
-  },
-  {
-    id: '3',
-    nombre: 'Ana Martínez',
-    horasTrabajadas: 152,
-    costoMensual: 3040,
-    serviciosRealizados: 36,
-    productividad: 92,
-  },
-  {
-    id: '4',
-    nombre: 'Carlos López',
-    horasTrabajadas: 145,
-    costoMensual: 2900,
-    serviciosRealizados: 35,
-    productividad: 86,
-  },
-  {
-    id: '5',
-    nombre: 'Laura Rodríguez',
-    horasTrabajadas: 138,
-    costoMensual: 2760,
-    serviciosRealizados: 32,
-    productividad: 84,
-  },
-];
-
-const productivityData = mockEmployees.map(emp => ({
-  name: emp.nombre.split(' ')[0],
-  productividad: emp.productividad,
-}));
+import { useEffect } from 'react';
+import { useDashboardContext } from '../../hooks/useDashboardContext';
 
 export function EmployeesSection() {
+  const { 
+    employees, 
+    employeeMetrics,
+    employeesLoading, 
+    employeesError, 
+    fetchEmployees 
+  } = useDashboardContext();
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  const productivityData = employees.map(emp => ({
+    name: emp.name.split(' ')[0],
+    productivity: emp.productivity,
+  }));
+
+  const totalEmployees = employeeMetrics?.totalEmployees || 0;
+  const totalHours = employeeMetrics?.totalHours || 0;
+  const totalCost = employeeMetrics?.totalCost || 0;
+  const totalServicesCount = employeeMetrics?.totalServices || 0;
+
+  if (employeesLoading) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Cargando empleados...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (employeesError) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-red-500">Error: {employeesError}</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
@@ -77,7 +66,7 @@ export function EmployeesSection() {
             </div>
             <span className="text-xs sm:text-sm text-gray-600">Total Empleados</span>
           </div>
-          <p className="text-xl sm:text-2xl font-semibold text-gray-900">5</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-900">{totalEmployees}</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
@@ -87,7 +76,7 @@ export function EmployeesSection() {
             </div>
             <span className="text-xs sm:text-sm text-gray-600">Horas Totales</span>
           </div>
-          <p className="text-xl sm:text-2xl font-semibold text-gray-900">759</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-900">{totalHours}</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
@@ -97,7 +86,7 @@ export function EmployeesSection() {
             </div>
             <span className="text-xs sm:text-sm text-gray-600">Costo Total</span>
           </div>
-          <p className="text-xl sm:text-2xl font-semibold text-gray-900">$15,180</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-900">${totalCost}</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
@@ -107,7 +96,7 @@ export function EmployeesSection() {
             </div>
             <span className="text-xs sm:text-sm text-gray-600">Servicios Total</span>
           </div>
-          <p className="text-xl sm:text-2xl font-semibold text-gray-900">183</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-900">{totalServicesCount}</p>
         </div>
       </div>
 
@@ -136,28 +125,28 @@ export function EmployeesSection() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {mockEmployees.map((employee) => (
+                {employees.map((employee) => (
                   <tr key={employee.id} className="hover:bg-gray-50">
                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2 sm:gap-3">
                         <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
                           <span className="text-xs font-medium text-gray-700">
-                            {employee.nombre.split(' ').map(n => n[0]).join('')}
+                            {employee.name.split(' ').map(n => n[0]).join('')}
                           </span>
                         </div>
                         <span className="text-xs sm:text-sm font-medium text-gray-900">
-                          {employee.nombre}
+                          {employee.name}
                         </span>
                       </div>
                     </td>
                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
-                      {employee.horasTrabajadas}h
+                      {employee.workedHours}h
                     </td>
                     <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
-                      ${employee.costoMensual.toLocaleString()}
+                      ${employee.employeeCost}
                     </td>
                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
-                      {employee.serviciosRealizados}
+                      {employee.servicesCount}
                     </td>
                   </tr>
                 ))}

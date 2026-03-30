@@ -1,0 +1,48 @@
+import { EmployeeDashboard } from "../contexts/models";
+export interface BackendEmployeeModel {
+  id: string;
+  name: string;
+  worked_hours: number;
+  employee_cost: number;
+  services_count: number;
+  productivity?: number;
+};
+
+export const fetchEmployeesService = async (): Promise<EmployeeDashboard> => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employees`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const responseText = await response.json();
+      console.log(response.status);
+      throw new Error(responseText.detail || 'Failed to fetch employees');
+    }
+
+    const data = await response.json();
+    const employeeResponse: EmployeeDashboard = {
+      employees: data.employees.map((emp: BackendEmployeeModel) => ({
+        id: emp.id,
+        name: emp.name,
+        workedHours: emp.worked_hours,
+        employeeCost: emp.employee_cost,
+        servicesCount: emp.services_count,
+        productivity: emp.productivity,
+      })),
+      metrics: {
+        totalEmployees: data.summary.total_employees,
+        totalHours: data.summary.total_hours,
+        totalCost: data.summary.total_cost,
+        totalServices: data.summary.total_services,
+      },
+    };
+
+    return employeeResponse;
+  } catch (error) {
+    throw error;
+  }
+};

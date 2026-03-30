@@ -1,92 +1,67 @@
-import { useState } from 'react';
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Plus, Search, Eye, Calendar } from 'lucide-react';
 import { NewServiceModal } from './NewServiceModal';
-
-interface Service {
-  id: string;
-  fecha: string;
-  cliente: string;
-  tipo: string;
-  empleados: string[];
-  horas: number;
-  ingreso: number;
-  costo: number;
-  margen: number;
-  estado: 'completado' | 'pendiente' | 'cancelado';
-}
-
-const mockServices: Service[] = [
-  {
-    id: '1',
-    fecha: '2026-01-03',
-    cliente: 'Corporativo Tech SA',
-    tipo: 'Limpieza de Oficina',
-    empleados: ['María G.', 'Juan P.'],
-    horas: 4,
-    ingreso: 280,
-    costo: 160,
-    margen: 42.9,
-    estado: 'completado',
-  },
-  {
-    id: '2',
-    fecha: '2026-01-03',
-    cliente: 'Familia Martínez',
-    tipo: 'Limpieza de Hogar',
-    empleados: ['Ana M.'],
-    horas: 3,
-    ingreso: 180,
-    costo: 90,
-    margen: 50.0,
-    estado: 'completado',
-  },
-  {
-    id: '3',
-    fecha: '2026-01-04',
-    cliente: 'Hotel Plaza',
-    tipo: 'Limpieza Profunda',
-    empleados: ['María G.', 'Carlos L.', 'Laura R.'],
-    horas: 8,
-    ingreso: 650,
-    costo: 420,
-    margen: 35.4,
-    estado: 'pendiente',
-  },
-  {
-    id: '4',
-    fecha: '2026-01-02',
-    cliente: 'Apartamento 5B',
-    tipo: 'Mudanza',
-    empleados: ['Juan P.', 'Carlos L.'],
-    horas: 5,
-    ingreso: 320,
-    costo: 220,
-    margen: 31.3,
-    estado: 'completado',
-  },
-];
+import { useDashboardContext } from '../../hooks/useDashboardContext';
+import { ServiceStatus } from '../../../contexts/models';
 
 export function ServicesSection() {
+  const { 
+    services, 
+    servicesLoading, 
+    servicesError, 
+    fetchServices,
+    refreshServices 
+  } = useDashboardContext();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredServices = mockServices.filter(service =>
-    service.cliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    service.tipo.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    if (services.length === 0) {
+      fetchServices();
+    }
+  }, [fetchServices, services.length]);
+  console.log("Servicios cargados:", services); // Debug: Ver servicios cargados
+  
+  const filteredServices = services.filter(service =>
+    service.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    service.serviceType.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const getStatusColor = (estado: string) => {
+  const getStatusColor = (estado: ServiceStatus) => {
     switch (estado) {
-      case 'completado':
+      case ServiceStatus.COMPLETADO:
         return 'bg-green-100 text-green-800';
-      case 'pendiente':
+      case ServiceStatus.PENDIENTE:
         return 'bg-amber-100 text-amber-800';
-      case 'cancelado':
+      case ServiceStatus.CANCELADO:
         return 'bg-red-100 text-red-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
   };
+
+  if (servicesLoading) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Cargando servicios...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (servicesError) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-red-500">Error: {servicesError}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -168,32 +143,32 @@ export function ServicesSection() {
               {filteredServices.map((service) => (
                 <tr key={service.id} className="hover:bg-gray-50">
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {new Date(service.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' })}
+                    {new Date(service.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' })}
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {service.cliente}
+                    {service.customerName}
                   </td>
                   <td className="hidden md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {service.tipo}
+                    {service.serviceType}
                   </td>
                   <td className="hidden lg:table-cell px-4 sm:px-6 py-4 text-sm text-gray-600">
-                    {service.empleados.join(', ')}
+                    {service.employeeNames.join(', ')}
                   </td>
                   <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {service.horas}h
+                    {service.workedHours}h
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
-                    ${service.ingreso}
+                    ${service.chargedPrice}
                   </td>
                   <td className="hidden md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-red-600">
-                    ${service.costo}
+                    ${service.totalCost}
                   </td>
                   <td className="hidden lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {service.margen.toFixed(1)}%
+                    {service.margin.toFixed(1)}%
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(service.estado)}`}>
-                      {service.estado}
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(service.status)}`}>
+                      {service.status}
                     </span>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
