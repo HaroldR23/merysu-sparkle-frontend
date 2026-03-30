@@ -21,4 +21,12 @@ export const DashboardContext = createContext<DashboardContextProps>({
   refreshEmployees: async () => {},
   createEmployee: async () => {},
 
+  // Clients
+  clients: [],
+  clientsLoading: false,
+  clientsError: null,
+  fetchClients: async () => {},
+  refreshClients: async () => {},
+  createClient: async () => {},
+
 });

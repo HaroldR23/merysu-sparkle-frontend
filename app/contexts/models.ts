@@ -16,6 +16,16 @@ export enum ServiceStatus {
   CANCELADO = "cancelado"
 }
 
+export enum ClientType {
+  RESIDENCIAL = "residencial",
+  COMERCIAL = "comercial"
+}
+
+export enum ClientStatus {
+  ACTIVO = "activo",
+  INACTIVO = "inactivo"
+}
+
 export interface Service {
   id: string;
   date: string;
@@ -43,6 +53,28 @@ export interface CreateServiceData {
   hourlyRate: number;
   internalNotes: string;
   workedHours: number;
+}
+
+export interface Client {
+  id: string;
+  name: string;
+  type: ClientType;
+  totalServices: number;
+  totalBilling: number;
+  lastService: string;
+  status: ClientStatus;
+}
+
+export interface ClientMetrics {
+  totalClients: number;
+  totalBilling: number;
+  totalServices: number;
+  averageBillingPerClient: number;
+}
+
+export interface ClientDashboard {
+  clients: Client[];
+  metrics: ClientMetrics;
 }
 
 export interface EmployeeMetrics {

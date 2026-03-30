@@ -1,9 +1,12 @@
+import { CreateClientData } from "@/app/services/createClientService";
 import { 
   Service, 
   Employee, 
   CreateServiceData,
   EmployeeMetrics,
-  CreateEmployeeData
+  CreateEmployeeData,
+  Client,
+  ClientMetrics
 } from "../models";
 
 export interface DashboardContextProps {
@@ -14,6 +17,15 @@ export interface DashboardContextProps {
   fetchServices: () => Promise<void>;
   refreshServices: () => Promise<void>;
   createService: (data: CreateServiceData) => Promise<void>;
+
+  // Clients
+  clients: Client[];
+  clientsLoading: boolean;
+  clientsError: string | null;
+  clientMetrics: ClientMetrics | null;
+  fetchClients: () => Promise<void>;
+  refreshClients: () => Promise<void>;
+  createClient: (data: CreateClientData) => Promise<void>;
 
   // Employees
   employees: Employee[];

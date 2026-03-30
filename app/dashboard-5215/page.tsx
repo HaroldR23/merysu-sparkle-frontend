@@ -22,8 +22,8 @@ const Dashboard = () => {
       //   return <ServicesSection />;
       // case 'reports':
       //   return <ReportsSection />;
-      // case 'clients':
-      //   return <ClientsSection />;
+      case 'clients':
+        return <ClientsSection />;
       case 'employees':
         return <EmployeesSection />;
       // case 'finances':

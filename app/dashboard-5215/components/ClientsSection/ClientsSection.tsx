@@ -1,75 +1,53 @@
+'use client';
+
 import { Building, Search, Plus, TrendingUp, DollarSign, ClipboardList } from 'lucide-react';
-import { useState } from 'react';
-
-interface Client {
-  id: string;
-  nombre: string;
-  tipo: 'residencial' | 'comercial';
-  serviciosRealizados: number;
-  totalFacturado: number;
-  ultimoServicio: string;
-  estado: 'activo' | 'inactivo';
-}
-
-const mockClients: Client[] = [
-  {
-    id: '1',
-    nombre: 'Corporativo Tech SA',
-    tipo: 'comercial',
-    serviciosRealizados: 24,
-    totalFacturado: 6720,
-    ultimoServicio: '2026-01-03',
-    estado: 'activo',
-  },
-  {
-    id: '2',
-    nombre: 'Familia Martínez',
-    tipo: 'residencial',
-    serviciosRealizados: 12,
-    totalFacturado: 2160,
-    ultimoServicio: '2026-01-03',
-    estado: 'activo',
-  },
-  {
-    id: '3',
-    nombre: 'Hotel Plaza',
-    tipo: 'comercial',
-    serviciosRealizados: 18,
-    totalFacturado: 11700,
-    ultimoServicio: '2026-01-02',
-    estado: 'activo',
-  },
-  {
-    id: '4',
-    nombre: 'Familia López',
-    tipo: 'residencial',
-    serviciosRealizados: 8,
-    totalFacturado: 1440,
-    ultimoServicio: '2025-12-28',
-    estado: 'activo',
-  },
-  {
-    id: '5',
-    nombre: 'Oficinas Centro',
-    tipo: 'comercial',
-    serviciosRealizados: 15,
-    totalFacturado: 4200,
-    ultimoServicio: '2025-12-30',
-    estado: 'activo',
-  },
-];
+import { useState, useEffect } from 'react';
+import { useDashboardContext } from '../../hooks/useDashboardContext';
 
 export function ClientsSection() {
+  const { 
+    clients, 
+    clientMetrics,
+    clientsLoading, 
+    clientsError, 
+    fetchClients 
+  } = useDashboardContext();
+
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredClients = mockClients.filter(client =>
-    client.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+  const filteredClients = clients.filter(client =>
+    client.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const totalClients = mockClients.length;
-  const totalRevenue = mockClients.reduce((sum, client) => sum + client.totalFacturado, 0);
-  const totalServices = mockClients.reduce((sum, client) => sum + client.serviciosRealizados, 0);
-  const activeClients = mockClients.filter(c => c.estado === 'activo').length;
+  const totalClients = clientMetrics?.totalClients;
+  const totalRevenue = clientMetrics?.totalBilling;
+  const totalServices = clientMetrics?.totalServices;
+  const activeClients = clientMetrics?.totalClients;
+  const averageBillingPerClient = clientMetrics?.averageBillingPerClient;
+
+  if (clientsLoading) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Cargando clientes...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (clientsError) {
+    return (
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-red-500">Error: {clientsError}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -106,7 +84,7 @@ export function ClientsSection() {
             </div>
             <span className="text-xs sm:text-sm text-gray-600">Facturación Total</span>
           </div>
-          <p className="text-xl sm:text-2xl font-semibold text-gray-900">${totalRevenue.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-semibold text-gray-900">${totalRevenue}</p>
           <p className="text-xs text-gray-500 mt-1">Histórico</p>
         </div>
 
@@ -129,7 +107,7 @@ export function ClientsSection() {
             <span className="text-xs sm:text-sm text-gray-600">Promedio por Cliente</span>
           </div>
           <p className="text-xl sm:text-2xl font-semibold text-gray-900">
-            ${Math.round(totalRevenue / totalClients).toLocaleString()}
+            ${averageBillingPerClient}
           </p>
           <p className="text-xs text-gray-500 mt-1">Facturación media</p>
         </div>
@@ -184,35 +162,35 @@ export function ClientsSection() {
                         <Building className="w-4 sm:w-5 h-4 sm:h-5 text-gray-600" />
                       </div>
                       <span className="text-xs sm:text-sm font-medium text-gray-900">
-                        {client.nombre}
+                        {client.name}
                       </span>
                     </div>
                   </td>
                   <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      client.tipo === 'comercial'
+                      client.type === 'comercial'
                         ? 'bg-blue-100 text-blue-800'
                         : 'bg-purple-100 text-purple-800'
                     }`}>
-                      {client.tipo}
+                      {client.type}
                     </span>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
-                    {client.serviciosRealizados}
+                    {client.totalServices}
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-green-600">
-                    ${client.totalFacturado.toLocaleString()}
+                    ${client.totalBilling}
                   </td>
                   <td className="hidden md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">
-                    {new Date(client.ultimoServicio).toLocaleDateString('es-ES')}
+                    {new Date(client.lastService).toLocaleDateString('es-ES')}
                   </td>
                   <td className="hidden lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      client.estado === 'activo'
+                      client.status === 'activo'
                         ? 'bg-green-100 text-green-800'
                         : 'bg-gray-100 text-gray-800'
                     }`}>
-                      {client.estado}
+                      {client.status}
                     </span>
                   </td>
                 </tr>
