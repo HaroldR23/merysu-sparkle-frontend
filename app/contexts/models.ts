@@ -55,6 +55,17 @@ export interface CreateServiceData {
   workedHours: number;
 }
 
+export interface CreateClientData {
+  name: string;
+  type: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  status: string;
+  notes: string;
+}
+
 export interface Client {
   id: string;
   name: string;

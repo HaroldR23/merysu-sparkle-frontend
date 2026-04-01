@@ -3,13 +3,18 @@
 import { Building, Search, Plus, TrendingUp, DollarSign, ClipboardList } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useDashboardContext } from '../../hooks/useDashboardContext';
+import { NewClientModal } from './NewClientModal';
+import { CreateClientData } from '@/app/contexts/models';
 
 export function ClientsSection() {
+  const [showModal, setShowModal] = useState(false);
+
   const { 
     clients, 
     clientMetrics,
     clientsLoading, 
-    clientsError, 
+    clientsError,
+    createClient,
     fetchClients 
   } = useDashboardContext();
 
@@ -49,6 +54,10 @@ export function ClientsSection() {
     );
   }
 
+  const handleSaveClient = (data: CreateClientData) => {
+    createClient(data);
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
@@ -57,7 +66,10 @@ export function ClientsSection() {
           <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">Clientes</h1>
           <p className="text-gray-500 mt-1 text-sm sm:text-base">Gestión de clientes y relaciones</p>
         </div>
-        <button className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base">
+        <button
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+          onClick={() => setShowModal(true)}
+        >
           <Plus className="w-5 h-5" />
           <span className="hidden sm:inline">Nuevo Cliente</span>
           <span className="sm:hidden">Nuevo</span>
@@ -199,6 +211,12 @@ export function ClientsSection() {
           </table>
         </div>
       </div>
+      {showModal && (
+        <NewClientModal
+          onClose={() => setShowModal(false)}
+          onSave={handleSaveClient}
+        />
+      )}
     </div>
   );
 };

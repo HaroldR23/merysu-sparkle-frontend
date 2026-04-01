@@ -3,9 +3,10 @@ export interface BackendClientModel {
   id: string;
   name: string;
   type: string;
-  total_services: number;
-  total_billing: number;
-  last_service: string;
+  services_count: number;
+  total_billed: number;
+  last_service_date: string;
+  status: string;
 }
 
 export const fetchClientsService = async (): Promise<ClientDashboard> => {
@@ -29,10 +30,11 @@ export const fetchClientsService = async (): Promise<ClientDashboard> => {
         id: customer.id,
         name: customer.name,
         type: customer.type,
-        totalServices: customer.total_services,
-        totalBilling: customer.total_billing,
-        lastService: customer.last_service,
-        status: "activo", // Assuming all clients are active for now, adjust as needed
+        totalServices: customer.services_count,
+        totalBilling: customer.total_billed,
+        lastService: customer.last_service_date,
+        status: customer.status,
+        
       })),
       metrics: {
         totalClients: data.summary.total_clients,
