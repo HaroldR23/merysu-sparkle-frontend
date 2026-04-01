@@ -1,4 +1,3 @@
-import { CreateClientData } from "@/app/services/createClientService";
 import { 
   Service, 
   Employee, 
@@ -6,7 +5,8 @@ import {
   EmployeeMetrics,
   CreateEmployeeData,
   Client,
-  ClientMetrics
+  ClientMetrics,
+  CreateClientData
 } from "../models";
 
 export interface DashboardContextProps {

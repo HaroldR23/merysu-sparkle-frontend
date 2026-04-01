@@ -9,14 +9,15 @@ import {
   EmployeeMetrics,
   CreateEmployeeData,
   Client,
-  ClientMetrics
+  ClientMetrics,
+  CreateClientData
 } from "../models";
 import { fetchServicesService } from "../../services/fetchServicesService";
 import { createServiceService } from "../../services/createServiceService";
 import { fetchEmployeesService } from "../../services/fetchEmployeesService";
 import { createEmployeeService } from "../../services/createEmployeeService";
 import { fetchClientsService } from "@/app/services/fetchClientsService";
-import { CreateClientData, createClientService } from "@/app/services/createClientService";
+import { createClientService } from "@/app/services/createClientService";
 
 const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   // Services State
@@ -114,6 +115,13 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const newClient = await createClientService(clientData);
       setClients(prev => [...prev, newClient]);
+      _setClientMetrics(prev => prev ? {
+        ...prev,
+        totalClients: prev.totalClients + 1,
+        totalBilling: prev.totalBilling + newClient.totalBilling,
+        totalServices: prev.totalServices + newClient.totalServices,
+        averageBillingPerClient: (prev.totalBilling + newClient.totalBilling) / (prev.totalClients + 1),
+      } : null);
     } catch (error) {
       throw error;
     }
