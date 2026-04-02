@@ -11,12 +11,12 @@ interface SidebarProps {
 
 const Sidebar = ({ activeSection, onNavigate, isOpen, onClose }: SidebarProps) => {
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    // { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'services', label: 'Servicios', icon: ClipboardList },
     { id: 'clients', label: 'Clientes', icon: Building },
     { id: 'employees', label: 'Empleados', icon: Users },
-    { id: 'finances', label: 'Finanzas', icon: DollarSign },
-    { id: 'reports', label: 'Reportes', icon: FileText },
+    // { id: 'finances', label: 'Finanzas', icon: DollarSign },
+    // { id: 'reports', label: 'Reportes', icon: FileText },
   ];
 
   return (

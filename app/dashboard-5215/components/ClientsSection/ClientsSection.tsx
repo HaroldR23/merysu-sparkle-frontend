@@ -21,8 +21,10 @@ export function ClientsSection() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchClients();
-  }, []);
+    if (clients.length === 0) {
+      fetchClients();
+    }
+  }, [clients.length, fetchClients]);
 
   const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase())

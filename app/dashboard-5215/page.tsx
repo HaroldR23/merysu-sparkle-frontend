@@ -18,8 +18,8 @@ const Dashboard = () => {
     switch (activeSection) {
       case 'dashboard':
         // return <DashboardOverview />;
-      // case 'services':
-      //   return <ServicesSection />;
+      case 'services':
+        return <ServicesSection />;
       // case 'reports':
       //   return <ReportsSection />;
       case 'clients':

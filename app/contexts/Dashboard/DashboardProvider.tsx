@@ -37,47 +37,6 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const [employeesLoading, setEmployeesLoading] = useState<boolean>(false);
   const [employeesError, setEmployeesError] = useState<string | null>(null);
 
-  // Fetch Services
-  const fetchServices = useCallback(async () => {
-    if (servicesLoading) return; // Prevent duplicate calls
-    
-    setServicesLoading(true);
-    setServicesError(null);
-    try {
-      const data = await fetchServicesService();
-      console.log("Servicios obtenidos del servicio:", data); // Debug: Ver servicios obtenidos
-      setServices(data);
-    } catch (error) {
-      setServicesError(error instanceof Error ? error.message : 'Failed to fetch services');
-    } finally {
-      setServicesLoading(false);
-    }
-  }, [servicesLoading]);
-
-  // Refresh Services
-  const refreshServices = useCallback(async () => {
-    setServicesError(null);
-    setServicesLoading(true);
-    try {
-      const data = await fetchServicesService();
-      setServices(data);
-    } catch (error) {
-      setServicesError(error instanceof Error ? error.message : 'Failed to refresh services');
-    } finally {
-      setServicesLoading(false);
-    }
-  }, []);
-
-  // Create Service
-  const createService = useCallback(async (serviceData: CreateServiceData) => {
-    try {
-      const newService = await createServiceService(serviceData);
-      setServices(prev => [...prev, newService]);
-    } catch (error) {
-      throw error;
-    }
-  }, []);
-
   // Fetch Clients
   const fetchClients = useCallback(async () => {
     if (clientsLoading) return; // Prevent duplicate calls
@@ -127,6 +86,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
+
   // Fetch Employees
   const fetchEmployees = useCallback(async () => {
     if (employeesLoading) return; // Prevent duplicate calls
@@ -164,6 +124,52 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const newEmployee = await createEmployeeService(employeeData);
       setEmployees(prev => [...prev, newEmployee]);
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
+      // Fetch Services
+  const fetchServices = useCallback(async () => {
+    if (servicesLoading) return; // Prevent duplicate calls
+    
+    setServicesLoading(true);
+    setServicesError(null);
+    try {
+      const servicesData = await fetchServicesService();
+      if (clients.length === 0) await fetchClients();
+      if (employees.length === 0) await fetchEmployees();
+      console.log("Servicios obtenidos del servicio:", servicesData); // Debug: Ver servicios obtenidos
+      setServices(servicesData);
+    } catch (error) {
+      setServicesError(error instanceof Error ? error.message : 'Failed to fetch services');
+    } finally {
+      setServicesLoading(false);
+    }
+  }, [servicesLoading, clients.length, employees.length, fetchClients, fetchEmployees]);
+
+  // Refresh Services
+  const refreshServices = useCallback(async () => {
+    setServicesError(null);
+    setServicesLoading(true);
+    try {
+      const data = await fetchServicesService();
+      setServices(data);
+    } catch (error) {
+      setServicesError(error instanceof Error ? error.message : 'Failed to refresh services');
+    } finally {
+      setServicesLoading(false);
+    }
+  }, []);
+
+  // Create Service
+  const createService = useCallback(async (serviceData: CreateServiceData) => {
+    try {
+      const newService = await createServiceService(serviceData);
+      setServices(prev => [...prev, { ...newService, employeeNames: serviceData.employeeIds.map(id => {
+        const employee = employees.find(e => e.id === id);
+        return employee ? employee.name : '';
+      }) } ]);
     } catch (error) {
       throw error;
     }

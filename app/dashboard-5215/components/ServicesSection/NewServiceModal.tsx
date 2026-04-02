@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Calendar, MapPin, DollarSign, Users } from 'lucide-react';
+import { X, Calendar, DollarSign, Users } from 'lucide-react';
 import { useDashboardContext } from '../../hooks/useDashboardContext';
 import { CreateServiceData } from '@/app/contexts/models';
 
@@ -24,15 +24,22 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
     customerId: '',
     workedHours: 0,
   });
-  
-  const { createService } = useDashboardContext();
+
+  const { createService, clients, employees } = useDashboardContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form data:', formData);
     await createService(formData);
     onClose();
+  };
+
+  const handleEmployeeToggle = (employeeId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      employeeIds: prev.employeeIds.includes(employeeId)
+        ? prev.employeeIds.filter((id) => id !== employeeId)
+        : [...prev.employeeIds, employeeId],
+    }));
   };
 
   return (
@@ -65,8 +72,8 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="date"
-                    value={formData.fecha}
-                    onChange={(e) => setFormData({ ...formData, fecha: e.target.value })}
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -77,8 +84,8 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="time"
-                    value={formData.horaInicio}
-                    onChange={(e) => setFormData({ ...formData, horaInicio: e.target.value })}
+                    value={formData.startTime}
+                    onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -89,8 +96,8 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="time"
-                    value={formData.horaFin}
-                    onChange={(e) => setFormData({ ...formData, horaFin: e.target.value })}
+                    value={formData.endTime}
+                    onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -98,47 +105,45 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
               </div>
             </div>
 
-            {/* Cliente y Ubicación */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                Cliente y Ubicación
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Cliente
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.cliente}
-                    onChange={(e) => setFormData({ ...formData, cliente: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Nombre del cliente"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Dirección
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.direccion}
-                    onChange={(e) => setFormData({ ...formData, direccion: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Dirección del servicio"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Tipo de Servicio y Empleados */}
+            {/* Cliente */}
             <div>
               <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
                 <Users className="w-4 h-4" />
-                Servicio y Equipo
+                Cliente
+              </h3>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Cliente
+                </label>
+                <select
+                  value={formData.customerId}
+                  onChange={(e) => {
+                    const selected = clients.find((c) => c.id === e.target.value);
+                    setFormData({
+                      ...formData,
+                      customerId: e.target.value,
+                      customerName: selected?.name ?? '',
+                      address: selected?.address ?? '',
+                    });
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                >
+                  <option value="">Seleccionar cliente...</option>
+                  {clients.map((client) => (
+                    <option key={client.id} value={client.id}>
+                      {client.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Tipo de Servicio */}
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Servicio
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -146,16 +151,17 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     Tipo de Servicio
                   </label>
                   <select
-                    value={formData.tipoServicio}
-                    onChange={(e) => setFormData({ ...formData, tipoServicio: e.target.value })}
+                    value={formData.serviceType}
+                    onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
                     <option value="">Seleccionar...</option>
-                    <option value="Limpieza de Hogar">Limpieza de Hogar</option>
-                    <option value="Limpieza de Oficina">Limpieza de Oficina</option>
-                    <option value="Limpieza Profunda">Limpieza Profunda</option>
-                    <option value="Mudanza">Mudanza</option>
+                    <option value="residential_cleaning">Limpieza de Hogar</option>
+                    <option value="commercial_cleaning">Limpieza de Oficina</option>
+                    <option value="deep_cleaning">Limpieza Profunda</option>
+                    <option value="move_in_out">Mudanza</option>
+                    <option value="post_construction">Post Construcción</option>
                   </select>
                 </div>
                 <div>
@@ -164,12 +170,45 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="number"
-                    value={formData.distancia}
-                    onChange={(e) => setFormData({ ...formData, distancia: e.target.value })}
+                    value={formData.distanceKm}
+                    onChange={(e) => setFormData({ ...formData, distanceKm: Number(e.target.value) })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
                     step="0.1"
+                    min="0"
                   />
+                </div>
+              </div>
+            </div>
+
+            {/* Empleados */}
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                Equipo de Trabajo
+              </h3>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Empleados asignados
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3">
+                  {employees.map((employee) => (
+                    <label
+                      key={employee.id}
+                      className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 rounded px-2 py-1"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={formData.employeeIds.includes(employee.id)}
+                        onChange={() => handleEmployeeToggle(employee.id)}
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <span className="text-sm text-gray-700">{employee.name}</span>
+                    </label>
+                  ))}
+                  {employees.length === 0 && (
+                    <p className="text-sm text-gray-400 col-span-2">No hay empleados disponibles.</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -187,11 +226,12 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="number"
-                    value={formData.horasTrabajadas}
-                    onChange={(e) => setFormData({ ...formData, horasTrabajadas: e.target.value })}
+                    value={formData.workedHours}
+                    onChange={(e) => setFormData({ ...formData, workedHours: Number(e.target.value) })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
                     step="0.5"
+                    min="0"
                     required
                   />
                 </div>
@@ -201,11 +241,12 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="number"
-                    value={formData.valorHora}
-                    onChange={(e) => setFormData({ ...formData, valorHora: e.target.value })}
+                    value={formData.hourlyRate}
+                    onChange={(e) => setFormData({ ...formData, hourlyRate: Number(e.target.value) })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
                     step="0.01"
+                    min="0"
                   />
                 </div>
                 <div>
@@ -214,11 +255,12 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="number"
-                    value={formData.costoTotal}
-                    onChange={(e) => setFormData({ ...formData, costoTotal: e.target.value })}
+                    value={formData.totalCost}
+                    onChange={(e) => setFormData({ ...formData, totalCost: Number(e.target.value) })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
                     step="0.01"
+                    min="0"
                     required
                   />
                 </div>
@@ -228,11 +270,12 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   </label>
                   <input
                     type="number"
-                    value={formData.precioCobrado}
-                    onChange={(e) => setFormData({ ...formData, precioCobrado: e.target.value })}
+                    value={formData.chargedPrice}
+                    onChange={(e) => setFormData({ ...formData, chargedPrice: Number(e.target.value) })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
                     step="0.01"
+                    min="0"
                     required
                   />
                 </div>
@@ -245,8 +288,8 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                 Observaciones Internas
               </label>
               <textarea
-                value={formData.observaciones}
-                onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })}
+                value={formData.internalNotes}
+                onChange={(e) => setFormData({ ...formData, internalNotes: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows={3}
                 placeholder="Notas adicionales sobre el servicio..."

@@ -20,8 +20,10 @@ export function EmployeesSection() {
   } = useDashboardContext();
 
   useEffect(() => {
-    fetchEmployees();
-  }, []);
+    if (employees.length === 0) {
+      fetchEmployees();
+    }
+  }, [employees.length, fetchEmployees]);
 
   const productivityData = employees.map(emp => ({
     name: emp.name.split(' ')[0],
