@@ -14,16 +14,17 @@ export function EmployeesSection() {
     employees, 
     employeeMetrics,
     employeesLoading, 
-    employeesError, 
+    employeesError,
+    employeesHasFetched,
     createEmployee,
     fetchEmployees 
   } = useDashboardContext();
 
   useEffect(() => {
-    if (employees.length === 0) {
+    if (!employeesHasFetched) {
       fetchEmployees();
     }
-  }, [employees.length, fetchEmployees]);
+  }, [employeesHasFetched, fetchEmployees]);
 
   const productivityData = employees.map(emp => ({
     name: emp.name.split(' ')[0],

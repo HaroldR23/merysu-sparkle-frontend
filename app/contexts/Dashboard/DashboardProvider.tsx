@@ -24,11 +24,13 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const [services, setServices] = useState<Service[]>([]);
   const [servicesLoading, setServicesLoading] = useState<boolean>(false);
   const [servicesError, setServicesError] = useState<string | null>(null);
+  const [servicesHasFetched, setServicesHasFetched] = useState<boolean>(false);
 
-  // // Clients State
+  // Clients State
   const [clients, setClients] = useState<Client[]>([]);
   const [clientsLoading, setClientsLoading] = useState<boolean>(false);
   const [clientsError, setClientsError] = useState<string | null>(null);
+  const [clientsHasFetched, setClientsHasFetched] = useState<boolean>(false);
   const [clientMetrics, _setClientMetrics] = useState<ClientMetrics | null>(null);
 
   // Employees State
@@ -36,10 +38,11 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const [employeeMetrics, _setEmployeeMetrics] = useState<EmployeeMetrics | null>(null);
   const [employeesLoading, setEmployeesLoading] = useState<boolean>(false);
   const [employeesError, setEmployeesError] = useState<string | null>(null);
+  const [employeesHasFetched, setEmployeesHasFetched] = useState<boolean>(false);
 
   // Fetch Clients
   const fetchClients = useCallback(async () => {
-    if (clientsLoading) return; // Prevent duplicate calls
+    if (clientsHasFetched || clientsLoading) return;
     
     setClientsLoading(true);
     setClientsError(null);
@@ -51,8 +54,9 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       setClientsError(error instanceof Error ? error.message : 'Failed to fetch clients');
     } finally {
       setClientsLoading(false);
+      setClientsHasFetched(true);
     }
-  }, [clientsLoading]);
+  }, [clientsHasFetched, clientsLoading]);
 
   // Refresh Clients
   const refreshClients = useCallback(async () => {
@@ -89,7 +93,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Fetch Employees
   const fetchEmployees = useCallback(async () => {
-    if (employeesLoading) return; // Prevent duplicate calls
+    if (employeesHasFetched || employeesLoading) return;
     
     setEmployeesLoading(true);
     setEmployeesError(null);
@@ -101,8 +105,9 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       setEmployeesError(error instanceof Error ? error.message : 'Failed to fetch employees');
     } finally {
       setEmployeesLoading(false);
+      setEmployeesHasFetched(true);
     }
-  }, [employeesLoading]);
+  }, [employeesHasFetched, employeesLoading]);
 
   // Refresh Employees
   const refreshEmployees = useCallback(async () => {
@@ -129,24 +134,26 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-      // Fetch Services
+  // Fetch Services
   const fetchServices = useCallback(async () => {
-    if (servicesLoading) return; // Prevent duplicate calls
+    if (servicesHasFetched || servicesLoading) return;
     
     setServicesLoading(true);
     setServicesError(null);
     try {
-      const servicesData = await fetchServicesService();
-      if (clients.length === 0) await fetchClients();
-      if (employees.length === 0) await fetchEmployees();
-      console.log("Servicios obtenidos del servicio:", servicesData); // Debug: Ver servicios obtenidos
+      const [servicesData] = await Promise.all([
+        fetchServicesService(),
+        fetchClients(),
+        fetchEmployees(),
+      ]);
       setServices(servicesData);
     } catch (error) {
       setServicesError(error instanceof Error ? error.message : 'Failed to fetch services');
     } finally {
       setServicesLoading(false);
+      setServicesHasFetched(true);
     }
-  }, [servicesLoading, clients.length, employees.length, fetchClients, fetchEmployees]);
+  }, [servicesHasFetched, servicesLoading, fetchClients, fetchEmployees]);
 
   // Refresh Services
   const refreshServices = useCallback(async () => {
@@ -184,6 +191,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         services,
         servicesLoading,
         servicesError,
+        servicesHasFetched,
         fetchServices,
         refreshServices,
         createService,
@@ -192,15 +200,17 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         clients,
         clientsLoading,
         clientsError,
+        clientsHasFetched,
         clientMetrics,
         fetchClients,
         refreshClients,
         createClient,
 
-        // // Employees
+        // Employees
         employees,
         employeesLoading,
         employeesError,
+        employeesHasFetched,
         employeeMetrics,
         fetchEmployees,
         refreshEmployees,

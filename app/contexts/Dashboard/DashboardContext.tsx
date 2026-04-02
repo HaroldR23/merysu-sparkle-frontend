@@ -8,14 +8,16 @@ export const DashboardContext = createContext<DashboardContextProps>({
   services: [],
   servicesLoading: false,
   servicesError: null,
+  servicesHasFetched: false,
   fetchServices: async () => {},
   refreshServices: async () => {},
   createService: async () => {},
 
-  // // Employees
+  // Employees
   employees: [],
   employeesLoading: false,
   employeesError: null,
+  employeesHasFetched: false,
   employeeMetrics: null,
   fetchEmployees: async () => {},
   refreshEmployees: async () => {},
@@ -25,6 +27,7 @@ export const DashboardContext = createContext<DashboardContextProps>({
   clients: [],
   clientsLoading: false,
   clientsError: null,
+  clientsHasFetched: false,
   clientMetrics: null,
   fetchClients: async () => {},
   refreshClients: async () => {},

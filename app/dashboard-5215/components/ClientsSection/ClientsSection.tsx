@@ -14,6 +14,7 @@ export function ClientsSection() {
     clientMetrics,
     clientsLoading, 
     clientsError,
+    clientsHasFetched,
     createClient,
     fetchClients 
   } = useDashboardContext();
@@ -21,10 +22,10 @@ export function ClientsSection() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    if (clients.length === 0) {
+    if (!clientsHasFetched) {
       fetchClients();
     }
-  }, [clients.length, fetchClients]);
+  }, [clientsHasFetched, fetchClients]);
 
   const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase())

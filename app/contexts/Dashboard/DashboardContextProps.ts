@@ -10,10 +10,11 @@ import {
 } from "../models";
 
 export interface DashboardContextProps {
-  // Services: Note: It's missing to get the employee and client lists to show in the create service form, but I want to get this merged first and then add that in a next PR to avoid making this too big
+  // Services
   services: Service[];
   servicesLoading: boolean;
   servicesError: string | null;
+  servicesHasFetched: boolean;
   fetchServices: () => Promise<void>;
   refreshServices: () => Promise<void>;
   createService: (data: CreateServiceData) => Promise<void>;
@@ -22,6 +23,7 @@ export interface DashboardContextProps {
   clients: Client[];
   clientsLoading: boolean;
   clientsError: string | null;
+  clientsHasFetched: boolean;
   clientMetrics: ClientMetrics | null;
   fetchClients: () => Promise<void>;
   refreshClients: () => Promise<void>;
@@ -31,6 +33,7 @@ export interface DashboardContextProps {
   employees: Employee[];
   employeesLoading: boolean;
   employeesError: string | null;
+  employeesHasFetched: boolean;
   employeeMetrics: EmployeeMetrics | null;
   fetchEmployees: () => Promise<void>;
   refreshEmployees: () => Promise<void>;

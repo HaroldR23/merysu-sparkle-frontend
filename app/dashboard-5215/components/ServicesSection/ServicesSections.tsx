@@ -10,7 +10,8 @@ export function ServicesSection() {
   const { 
     services, 
     servicesLoading, 
-    servicesError, 
+    servicesError,
+    servicesHasFetched,
     fetchServices,
   } = useDashboardContext();
   
@@ -18,10 +19,10 @@ export function ServicesSection() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    if (services.length === 0) {
+    if (!servicesHasFetched) {
       fetchServices();
     }
-  }, [fetchServices, services.length]);
+  }, [servicesHasFetched, fetchServices]);
   
   const filteredServices = services.filter(service =>
     service.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
