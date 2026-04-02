@@ -60,6 +60,7 @@ export const createClientService = async (clientData: CreateClientData): Promise
       totalServices: 0,
       totalBilling: 0,
       lastService: "",
+      address: data.location,
       status: statusTranslations[data.status] == "active" ? ClientStatus.ACTIVO : ClientStatus.INACTIVO,
     };
   } catch (error) {

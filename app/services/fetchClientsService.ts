@@ -7,6 +7,7 @@ export interface BackendClientModel {
   total_billed: number;
   last_service_date: string;
   status: string;
+  location?: string;
 }
 
 export const fetchClientsService = async (): Promise<ClientDashboard> => {
@@ -34,7 +35,7 @@ export const fetchClientsService = async (): Promise<ClientDashboard> => {
         totalBilling: customer.total_billed,
         lastService: customer.last_service_date,
         status: customer.status,
-        
+        address: customer.location,
       })),
       metrics: {
         totalClients: data.summary.total_clients,

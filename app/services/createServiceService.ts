@@ -31,7 +31,19 @@ export const createServiceService = async (serviceData: CreateServiceData): Prom
       throw new Error(responseText.detail || 'Failed to create service');
     }
 
-    return await response.json();
+    const data = await response.json();
+    return {
+      id: data.id,
+      date: data.date,
+      customerName: serviceData.customerName,
+      serviceType: data.service_type,
+      employeeNames: data.employee_names,
+      workedHours: data.worked_hours,
+      chargedPrice: data.charged_price,
+      totalCost: data.total_cost,
+      margin: data.margin,
+      status: data.status,
+    };  
   } catch (error) {
     throw error;
   }

@@ -74,6 +74,7 @@ export interface Client {
   totalBilling: number;
   lastService: string;
   status: ClientStatus;
+  address?: string;
 }
 
 export interface ClientMetrics {

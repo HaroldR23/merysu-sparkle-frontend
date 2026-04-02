@@ -12,7 +12,6 @@ export function ServicesSection() {
     servicesLoading, 
     servicesError, 
     fetchServices,
-    refreshServices 
   } = useDashboardContext();
   
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +22,6 @@ export function ServicesSection() {
       fetchServices();
     }
   }, [fetchServices, services.length]);
-  console.log("Servicios cargados:", services); // Debug: Ver servicios cargados
   
   const filteredServices = services.filter(service =>
     service.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -164,7 +162,7 @@ export function ServicesSection() {
                     ${service.totalCost}
                   </td>
                   <td className="hidden lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {service.margin.toFixed(1)}%
+                    {service.margin ? service.margin.toFixed(1) : '0'}%
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(service.status)}`}>
