@@ -1,46 +1,50 @@
 import { useState } from 'react';
-import { X, User, Phone, DollarSign, Briefcase, Calendar } from 'lucide-react';
+import { X, User, Phone, Briefcase, Calendar, Loader2 } from 'lucide-react';
 import { CreateEmployeeData } from '@/app/contexts/models';
 
 interface NewEmployeeModalProps {
   onClose: () => void;
-  onSave: (employee: CreateEmployeeData) => void;
+  onSave: (employee: CreateEmployeeData) => Promise<void>;
 }
 
 const NewEmployeeModal = ({ onClose, onSave }: NewEmployeeModalProps) => {
   const [formData, setFormData] = useState<CreateEmployeeData>({
     name: '',
     phoneNumber: '',
-    entryDate: '', // This attribute is not implemented in the backend, but we can still include it in the form for future use.
-    hourlyRate: 0,
+    entryDate: new Date().toISOString().split('T')[0], // This attribute is not implemented in the backend, but we can still include it in the form for future use.
     status: 'activo', // This attribute is not implemented in the backend, but we can still include it in the form for future use.
-    notes: '',
+    notes: '', // This attribute is not implemented in the backend, but we can still include it in the form for future use.
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio.';
     if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'El teléfono es obligatorio.';
     if (!formData.entryDate) newErrors.entryDate = 'La fecha de ingreso es obligatoria.';
-    if (!formData.hourlyRate || Number(formData.hourlyRate) <= 0)
-      newErrors.hourlyRate = 'Ingresa un valor por hora válido.';
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    onSave({
-      ...formData,
-      hourlyRate: Number(formData.hourlyRate),
-    });
-    onClose();
+    setIsLoading(true);
+    try {
+      await onSave({
+        ...formData,
+        hourlyRate: Number(formData.hourlyRate),
+      });
+      await new Promise(r => setTimeout(r, 600));
+      onClose();
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const field = (key: keyof typeof formData, value: string) => {
@@ -61,7 +65,7 @@ const NewEmployeeModal = ({ onClose, onSave }: NewEmployeeModalProps) => {
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      onClick={(e) => !isLoading && e.target === e.currentTarget && onClose()}
     >
       <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
@@ -74,7 +78,8 @@ const NewEmployeeModal = ({ onClose, onSave }: NewEmployeeModalProps) => {
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            disabled={isLoading}
+            className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-40"
           >
             <X className="w-6 h-6" />
           </button>
@@ -147,25 +152,6 @@ const NewEmployeeModal = ({ onClose, onSave }: NewEmployeeModalProps) => {
                 {errors.entryDate && <p className="text-xs text-red-500 mt-1">{errors.entryDate}</p>}
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Valor por Hora ($) <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <DollarSign className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="number"
-                    value={formData.hourlyRate}
-                    onChange={(e) => field('hourlyRate', e.target.value)}
-                    placeholder="0.00"
-                    min="0"
-                    step="0.01"
-                    className={iconInputClass('hourlyRate')}
-                  />
-                </div>
-                {errors.hourlyRate && <p className="text-xs text-red-500 mt-1">{errors.hourlyRate}</p>}
-              </div>
-
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Estado
@@ -214,15 +200,21 @@ const NewEmployeeModal = ({ onClose, onSave }: NewEmployeeModalProps) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+              disabled={isLoading}
+              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm disabled:opacity-40"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              disabled={isLoading}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium disabled:opacity-70"
             >
-              Guardar Empleado
+              {isLoading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Guardando...</>
+              ) : (
+                'Guardar Empleado'
+              )}
             </button>
           </div>
         </form>

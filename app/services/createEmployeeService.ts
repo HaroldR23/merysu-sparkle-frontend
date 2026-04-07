@@ -12,7 +12,7 @@ export const createEmployeeService = async (employeeData: CreateEmployeeData): P
         name: employeeData.name,
         phone_number: employeeData.phoneNumber,
         services_count: 0,
-        employee_cost: employeeData.hourlyRate,
+        employee_cost: 0,
         worked_hours: 0,
       }),
     });
@@ -23,7 +23,17 @@ export const createEmployeeService = async (employeeData: CreateEmployeeData): P
       throw new Error(responseText.detail || 'Failed to create employee');
     }
 
-    return await response.json();
+    const data = await response.json();
+    const newEmployee: Employee = {
+      id: data.id,
+      name: data.name,
+      workedHours: data.worked_hours,
+      employeeCost: data.employee_cost,
+      servicesCount: data.services_count,
+    };
+
+    return newEmployee;
+
   } catch (error) {
     throw error;
   }

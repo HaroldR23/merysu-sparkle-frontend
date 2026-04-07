@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Calendar, DollarSign, Users } from 'lucide-react';
+import { X, Calendar, DollarSign, Users, Loader2 } from 'lucide-react';
 import { useDashboardContext } from '../../hooks/useDashboardContext';
 import { CreateServiceData } from '@/app/contexts/models';
 
@@ -26,11 +26,18 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
   });
 
   const { createService, clients, employees } = useDashboardContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createService(formData);
-    onClose();
+    setIsLoading(true);
+    try {
+      await createService(formData);
+      await new Promise(r => setTimeout(r, 600));
+      onClose();
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleEmployeeToggle = (employeeId: string) => {
@@ -43,14 +50,16 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onClick={(e) => !isLoading && e.target === e.currentTarget && onClose()}>
       <div className="bg-white rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">Registrar Nuevo Servicio</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            disabled={isLoading}
+            className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-40"
           >
             <X className="w-6 h-6" />
           </button>
@@ -302,15 +311,21 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              disabled={isLoading}
+              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-40"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              disabled={isLoading}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-70"
             >
-              Guardar Servicio
+              {isLoading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Guardando...</>
+              ) : (
+                'Guardar Servicio'
+              )}
             </button>
           </div>
         </form>

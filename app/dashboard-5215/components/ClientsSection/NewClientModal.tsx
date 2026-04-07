@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { X, Building2, Phone, Mail, MapPin, User, FileText } from 'lucide-react';
+import { X, Building2, Phone, Mail, MapPin, User, FileText, Loader2 } from 'lucide-react';
 import { CreateClientData } from '@/app/contexts/models';
 
 interface NewClientModalProps {
   onClose: () => void;
-  onSave: (client: CreateClientData) => void;
+  onSave: (client: CreateClientData) => Promise<void>;
 }
 
 export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
@@ -20,6 +20,7 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -35,15 +36,21 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    onSave(formData);
-    onClose();
+    setIsLoading(true);
+    try {
+      await onSave(formData);
+      await new Promise(r => setTimeout(r, 600));
+      onClose();
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const field = (key: keyof typeof formData, value: string) => {
@@ -54,7 +61,7 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      onClick={(e) => !isLoading && e.target === e.currentTarget && onClose()}
     >
       <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
@@ -67,7 +74,8 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            disabled={isLoading}
+            className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-40"
           >
             <X className="w-6 h-6" />
           </button>
@@ -263,15 +271,21 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+              disabled={isLoading}
+              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm disabled:opacity-40"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              disabled={isLoading}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium disabled:opacity-70"
             >
-              Guardar Cliente
+              {isLoading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Guardando...</>
+              ) : (
+                'Guardar Cliente'
+              )}
             </button>
           </div>
         </form>
