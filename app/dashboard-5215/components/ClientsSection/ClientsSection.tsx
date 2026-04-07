@@ -57,8 +57,8 @@ export function ClientsSection() {
     );
   }
 
-  const handleSaveClient = (data: CreateClientData) => {
-    createClient(data);
+  const handleSaveClient = async (data: CreateClientData) => {
+    await createClient(data);
   };
 
   return (

@@ -36,8 +36,8 @@ export function EmployeesSection() {
   const totalCost = employeeMetrics?.totalCost || 0;
   const totalServicesCount = employeeMetrics?.totalServices || 0;
 
-  const handleSaveEmployee = (data: CreateEmployeeData) => {
-    createEmployee(data);
+  const handleSaveEmployee = async (data: CreateEmployeeData) => {
+    await createEmployee(data);
   };
 
   if (employeesLoading) {

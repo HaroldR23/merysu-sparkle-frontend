@@ -108,7 +108,7 @@ export interface Employee {
 export interface CreateEmployeeData {
   name: string;
   phoneNumber: string;
-  hourlyRate: number;
+  hourlyRate?: number;
   entryDate: string;
   status: 'activo' | 'inactivo';
   notes: string;
