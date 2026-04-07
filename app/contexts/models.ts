@@ -64,6 +64,7 @@ export interface CreateClientData {
   city: string;
   status: string;
   notes: string;
+  lastService: string;
 }
 
 export interface Client {

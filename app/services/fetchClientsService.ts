@@ -1,4 +1,5 @@
 import { ClientDashboard } from "../contexts/models";
+import { statusTranslationsToSpa, typeTranslationsToSpa } from "./createClientService";
 export interface BackendClientModel {
   id: string;
   name: string;
@@ -30,11 +31,11 @@ export const fetchClientsService = async (): Promise<ClientDashboard> => {
       clients: data.customers.map((customer: BackendClientModel) => ({
         id: customer.id,
         name: customer.name,
-        type: customer.type,
+        type: typeTranslationsToSpa[customer.type] ?? customer.type,
         totalServices: customer.services_count,
         totalBilling: customer.total_billed,
         lastService: customer.last_service_date,
-        status: customer.status,
+        status: statusTranslationsToSpa[customer.status] ?? customer.status,
         address: customer.location,
       })),
       metrics: {
