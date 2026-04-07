@@ -1,4 +1,4 @@
-import { Client, ClientStatus, CreateClientData } from "../contexts/models";
+import { Client, ClientStatus, ClientType, CreateClientData } from "../contexts/models";
 
 export interface CreateClientBackend { 
   name: string;
@@ -11,29 +11,40 @@ export interface CreateClientBackend {
   city: string;
   status: string;
   notes: string;
+  last_service_date: string;
 }
 
-export const typeTranslations: Record<string, string> = {
+export const typeTranslationsToEn: Record<string, string> = {
   comercial: "commercial",
   residencial: "residential",
 };
 
-export const statusTranslations: Record<string, string> = {
+export const typeTranslationsToSpa: Record<string, ClientType> = {
+  commercial: ClientType.COMERCIAL,
+  residential: ClientType.RESIDENCIAL,
+};
+
+export const statusTranslationsToEn: Record<string, string> = {
   activo: "active",
   inactivo: "inactive",
+};
+export const statusTranslationsToSpa: Record<string, ClientStatus> = {
+  active: ClientStatus.ACTIVO,
+  inactive: ClientStatus.INACTIVO,
 };
 
 export const mapToCreateClientBackend = (data: CreateClientData): CreateClientBackend => ({
   name: data.name,
-  type: typeTranslations[data.type] ?? data.type,
+  type: typeTranslationsToEn[data.type] ?? data.type,
   email: data.email,
   services_count: 0,
   total_billed: 0,
   phone_number: data.phone,
   location: data.address,
   city: data.city,
-  status: statusTranslations[data.status] ?? data.status,
+  status: statusTranslationsToEn[data.status] ?? data.status,
   notes: data.notes,
+  last_service_date: data.lastService,
 });
 
 export const createClientService = async (clientData: CreateClientData): Promise<Client> => {
@@ -56,12 +67,12 @@ export const createClientService = async (clientData: CreateClientData): Promise
     return {
       id: data.id,
       name: data.name,
-      type: data.type,
+      type: typeTranslationsToSpa[data.type] ?? data.type,
       totalServices: 0,
       totalBilling: 0,
-      lastService: "",
+      lastService: data.last_service_date,
       address: data.location,
-      status: statusTranslations[data.status] == "active" ? ClientStatus.ACTIVO : ClientStatus.INACTIVO,
+      status: statusTranslationsToSpa[data.status] ?? data.status,
     };
   } catch (error) {
     throw error;

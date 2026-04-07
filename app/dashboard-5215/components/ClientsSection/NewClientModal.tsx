@@ -17,6 +17,7 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
     city: '',
     status: 'activo' as 'activo' | 'inactivo',
     notes: '',
+    lastService: new Date().toISOString().split('T')[0],
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -126,18 +127,28 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
               </div>
 
               {/* Estado */}
-              <div>
+              <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Estado
                 </label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => field('status', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                >
-                  <option value="activo">Activo</option>
-                  <option value="inactivo">Inactivo</option>
-                </select>
+                <div className="flex gap-3">
+                  {(['activo', 'inactivo'] as const).map((op) => (
+                    <button
+                      key={op}
+                      type="button"
+                      onClick={() => field('status', op)}
+                      className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors capitalize ${
+                        formData.status === op
+                          ? op === 'activo'
+                            ? 'bg-green-50 border-green-400 text-green-700'
+                            : 'bg-gray-100 border-gray-400 text-gray-700'
+                          : 'border-gray-200 text-gray-400 hover:border-gray-300'
+                      }`}
+                    >
+                      {op === 'activo' ? '✓ Activo' : '✗ Inactivo'}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </section>

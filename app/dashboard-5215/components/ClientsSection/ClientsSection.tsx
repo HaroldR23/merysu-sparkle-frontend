@@ -86,7 +86,7 @@ export function ClientsSection() {
             <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center">
               <Building className="w-5 h-5" />
             </div>
-            <span className="text-xs sm:text-sm text-gray-600">Total Clientes</span>
+            <span className="text-xs sm:text-sm text-gray-600">Clientes Totales</span>
           </div>
           <p className="text-xl sm:text-2xl font-semibold text-gray-900">{totalClients}</p>
           <p className="text-xs text-gray-500 mt-1">{activeClients} activos</p>
@@ -97,7 +97,7 @@ export function ClientsSection() {
             <div className="w-10 h-10 bg-green-50 text-green-600 rounded-lg flex items-center justify-center">
               <DollarSign className="w-5 h-5" />
             </div>
-            <span className="text-xs sm:text-sm text-gray-600">Facturación Total</span>
+            <span className="text-xs sm:text-sm text-gray-600">Ingresos Totales</span>
           </div>
           <p className="text-xl sm:text-2xl font-semibold text-gray-900">${totalRevenue}</p>
           <p className="text-xs text-gray-500 mt-1">Histórico</p>
@@ -108,10 +108,10 @@ export function ClientsSection() {
             <div className="w-10 h-10 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center">
               <ClipboardList className="w-5 h-5" />
             </div>
-            <span className="text-xs sm:text-sm text-gray-600">Servicios Total</span>
+            <span className="text-xs sm:text-sm text-gray-600">Servicios Realizados</span>
           </div>
           <p className="text-xl sm:text-2xl font-semibold text-gray-900">{totalServices}</p>
-          <p className="text-xs text-gray-500 mt-1">Todos los tiempos</p>
+          <p className="text-xs text-gray-500 mt-1">Histórico</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
@@ -119,7 +119,7 @@ export function ClientsSection() {
             <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center">
               <TrendingUp className="w-5 h-5" />
             </div>
-            <span className="text-xs sm:text-sm text-gray-600">Promedio por Cliente</span>
+            <span className="text-xs sm:text-sm text-gray-600">Ingreso Promedio por Cliente</span>
           </div>
           <p className="text-xl sm:text-2xl font-semibold text-gray-900">
             ${averageBillingPerClient}
