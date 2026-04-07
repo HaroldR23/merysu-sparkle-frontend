@@ -1,40 +1,38 @@
 'use client';
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Sidebar from "./components/Sidebar/Sidebar";
-import DashboardOverview from "./components/DashboardOverview/DashboardOverview";
 import { ServicesSection } from "./components/ServicesSection/ServicesSections";
-import { ReportsSection } from "./components/ReportsSection/ReportsSection";
 import { ClientsSection } from "./components/ClientsSection/ClientsSection";
 import { EmployeesSection } from "./components/EmployeesSection/EmployeesSection";
-import { FinancesSection } from "./components/FinancesSection/FinancesSection";
 
 
-const Dashboard = () => {
-  const [activeSection, setActiveSection] = useState<string>('dashboard');
+const DashboardContent = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeSection = searchParams.get('section') ?? 'services';
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const renderContent = () => {
     switch (activeSection) {
       // case 'dashboard':
         // return <DashboardOverview />;
+      // case 'finances':
+        // return <FinancesSection />;
       case 'services':
         return <ServicesSection />;
-      // case 'reports':
-      //   return <ReportsSection />;
       case 'clients':
         return <ClientsSection />;
       case 'employees':
         return <EmployeesSection />;
-      // case 'finances':
-      //   return <FinancesSection />;
       default:
         return <EmployeesSection />;
     }
   };
 
   const handleNavigate = (section: string) => {
-    setActiveSection(section);
+    router.push(`?section=${section}`);
     setIsSidebarOpen(false);
   };
 
@@ -73,6 +71,12 @@ const Dashboard = () => {
       </main>
     </div>
   );
-}
+};
+
+const Dashboard = () => (
+  <Suspense>
+    <DashboardContent />
+  </Suspense>
+);
 
 export default Dashboard;
