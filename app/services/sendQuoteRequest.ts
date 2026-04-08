@@ -18,7 +18,6 @@ export const sendQuoteRequestService = async (formData: QuoteRequestFormData) =>
 
     if (!response.ok) {
       const responseText = await response.json();
-      console.log(response.status);
       throw new Error(responseText.detail || 'Failed to send quote request');
     }
 

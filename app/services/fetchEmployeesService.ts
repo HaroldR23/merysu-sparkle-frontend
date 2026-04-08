@@ -19,7 +19,6 @@ export const fetchEmployeesService = async (): Promise<EmployeeDashboard> => {
 
     if (!response.ok) {
       const responseText = await response.json();
-      console.log(response.status);
       throw new Error(responseText.detail || 'Failed to fetch employees');
     }
 

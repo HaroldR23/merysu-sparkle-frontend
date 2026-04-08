@@ -16,6 +16,14 @@ export enum ServiceStatus {
   CANCELADO = "cancelado"
 }
 
+export enum ServiceType {
+  LIMPIEZA_RESIDENCIAL = "Limpieza residencial",
+  LIMPIEZA_COMERCIAL = "Limpieza comercial",
+  LIMPIEZA_POST_CONSTRUCCION = "Limpieza post-construcción",
+  LIMPIEZA_PROFUNDA = "Limpieza profunda",
+  LIMPIEZA_MUDANZA = "Limpieza de mudanza"
+}
+
 export enum ClientType {
   RESIDENCIAL = "residencial",
   COMERCIAL = "comercial"

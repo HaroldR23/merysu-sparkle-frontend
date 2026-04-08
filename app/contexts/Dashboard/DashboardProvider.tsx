@@ -180,7 +180,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       throw error;
     }
-  }, []);
+  }, [employees]);
 
  
 
