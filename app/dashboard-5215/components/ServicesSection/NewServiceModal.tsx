@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Calendar, DollarSign, Users, Loader2 } from 'lucide-react';
 import { useDashboardContext } from '../../hooks/useDashboardContext';
 import { CreateServiceData } from '@/app/contexts/models';
@@ -8,16 +8,19 @@ interface NewServiceModalProps {
 }
 
 export function NewServiceModal({ onClose }: NewServiceModalProps) {
+  const currentDate = new Date().toISOString().split('T')[0];
+  const currentTime = new Date().toTimeString().split(' ')[0].slice(0, 5);
+
   const [formData, setFormData] = useState<CreateServiceData>({
     address: '',
-    date: '',
+    date: currentDate,
     customerName: '',
     distanceKm: 0,
-    endTime: '',
+    endTime: currentTime,
     hourlyRate: 0,
     chargedPrice: 0,
     serviceType: '',
-    startTime: '',
+    startTime: currentTime,
     totalCost: 0,
     internalNotes: '',
     employeeIds: [],
@@ -27,9 +30,22 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
 
   const { createService, clients, employees } = useDashboardContext();
   const [isLoading, setIsLoading] = useState(false);
+  const [employeeError, setEmployeeError] = useState(false);
+
+  useEffect(() => {
+    const toMinutes = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+    const diff = toMinutes(formData.endTime) - toMinutes(formData.startTime);
+    const hours = diff > 0 ? Math.round(diff / 60) : 0;
+    const price = Math.round(hours * formData.hourlyRate * 100) / 100;
+    setFormData((prev) => ({ ...prev, workedHours: hours, chargedPrice: price }));
+  }, [formData.startTime, formData.endTime, formData.hourlyRate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.employeeIds.length === 0) {
+      setEmployeeError(true);
+      return;
+    }
     setIsLoading(true);
     try {
       await createService(formData);
@@ -41,12 +57,13 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
   };
 
   const handleEmployeeToggle = (employeeId: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      employeeIds: prev.employeeIds.includes(employeeId)
+    setFormData((prev) => {
+      const updated = prev.employeeIds.includes(employeeId)
         ? prev.employeeIds.filter((id) => id !== employeeId)
-        : [...prev.employeeIds, employeeId],
-    }));
+        : [...prev.employeeIds, employeeId];
+      if (updated.length > 0) setEmployeeError(false);
+      return { ...prev, employeeIds: updated };
+    });
   };
 
   return (
@@ -181,8 +198,9 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     type="number"
                     value={formData.distanceKm}
                     onChange={(e) => setFormData({ ...formData, distanceKm: Number(e.target.value) })}
+                    onFocus={(e) => e.target.select()}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="0"
+                    placeholder="0"  
                     step="0.1"
                     min="0"
                   />
@@ -200,7 +218,7 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Empleados asignados
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3">
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto border rounded-lg p-3 ${employeeError ? 'border-red-500' : 'border-gray-300'}`}>
                   {employees.map((employee) => (
                     <label
                       key={employee.id}
@@ -219,6 +237,9 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     <p className="text-sm text-gray-400 col-span-2">No hay empleados disponibles.</p>
                   )}
                 </div>
+                {employeeError && (
+                  <p className="mt-1 text-sm text-red-500">Debe seleccionar al menos un empleado.</p>
+                )}
               </div>
             </div>
 
@@ -236,12 +257,10 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   <input
                     type="number"
                     value={formData.workedHours}
-                    onChange={(e) => setFormData({ ...formData, workedHours: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="0"
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-default"
                     step="0.5"
                     min="0"
-                    required
                   />
                 </div>
                 <div>
@@ -252,9 +271,10 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     type="number"
                     value={formData.hourlyRate}
                     onChange={(e) => setFormData({ ...formData, hourlyRate: Number(e.target.value) })}
+                    onFocus={(e) => e.target.select()}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
-                    step="0.01"
+                    step="10"
                     min="0"
                   />
                 </div>
@@ -266,9 +286,10 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     type="number"
                     value={formData.totalCost}
                     onChange={(e) => setFormData({ ...formData, totalCost: Number(e.target.value) })}
+                    onFocus={(e) => e.target.select()}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
-                    step="0.01"
+                    step="10"
                     min="0"
                     required
                   />
@@ -280,12 +301,10 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                   <input
                     type="number"
                     value={formData.chargedPrice}
-                    onChange={(e) => setFormData({ ...formData, chargedPrice: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="0"
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-default"
                     step="0.01"
                     min="0"
-                    required
                   />
                 </div>
               </div>

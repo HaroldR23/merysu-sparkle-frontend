@@ -59,7 +59,6 @@ export const createClientService = async (clientData: CreateClientData): Promise
 
     if (!response.ok) {
       const responseText = await response.json();
-      console.log(response.status);
       throw new Error(responseText.detail || 'Failed to create client');
     }
 

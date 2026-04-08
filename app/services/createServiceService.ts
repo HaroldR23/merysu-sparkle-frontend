@@ -1,4 +1,5 @@
 import { CreateServiceData, Service } from "../contexts/models";
+import { serviceStatusTranslationsToSpa, serviceTypeTranslationsToEn, serviceTypeTranslationsToSpa } from "./fetchServicesService";
 
 export const createServiceService = async (serviceData: CreateServiceData): Promise<Service> => {
   try {
@@ -13,7 +14,7 @@ export const createServiceService = async (serviceData: CreateServiceData): Prom
           end_time: serviceData.endTime,
           customer_id: serviceData.customerId,
           address: serviceData.address,
-          service_type: serviceData.serviceType,
+          service_type: serviceTypeTranslationsToEn[serviceData.serviceType] ?? serviceData.serviceType,
           distance_km: serviceData.distanceKm,
           worked_hours: serviceData.workedHours,
           hourly_rate: serviceData.hourlyRate,
@@ -27,7 +28,6 @@ export const createServiceService = async (serviceData: CreateServiceData): Prom
 
     if (!response.ok) {
       const responseText = await response.json();
-      console.log(response.status);
       throw new Error(responseText.detail || 'Failed to create service');
     }
 
@@ -36,13 +36,13 @@ export const createServiceService = async (serviceData: CreateServiceData): Prom
       id: data.id,
       date: data.date,
       customerName: serviceData.customerName,
-      serviceType: data.service_type,
-      employeeNames: data.employee_names,
+      serviceType: serviceTypeTranslationsToSpa[data.service_type] ?? data.service_type,
+      employeeNames: data.employee_ids,
       workedHours: data.worked_hours,
       chargedPrice: data.charged_price,
       totalCost: data.total_cost,
       margin: data.margin,
-      status: data.status,
+      status: serviceStatusTranslationsToSpa[data.status] ?? data.status,
     };  
   } catch (error) {
     throw error;
