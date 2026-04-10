@@ -61,34 +61,20 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   // Refresh Clients
   const refreshClients = useCallback(async () => {
     setClientsError(null);
-    setClientsLoading(true);
     try {
       const data = await fetchClientsService();
       setClients(data.clients);
       _setClientMetrics(data.metrics);
     } catch (error) {
       setClientsError(error instanceof Error ? error.message : 'Failed to refresh clients');
-    } finally {
-      setClientsLoading(false);
     }
   }, []);
 
   // Create Client
   const createClient = useCallback(async (clientData: CreateClientData) => {
-    try {
-      const newClient = await createClientService(clientData);
-      setClients(prev => [...prev, newClient]);
-      _setClientMetrics(prev => prev ? {
-        ...prev,
-        totalClients: prev.totalClients + 1,
-        totalBilling: prev.totalBilling + newClient.totalBilling,
-        totalServices: prev.totalServices + newClient.totalServices,
-        averageBillingPerClient: (prev.totalBilling + newClient.totalBilling) / (prev.totalClients + 1),
-      } : null);
-    } catch (error) {
-      throw error;
-    }
-  }, []);
+    await createClientService(clientData);
+    await refreshClients();
+  }, [refreshClients]);
 
 
   // Fetch Employees
@@ -112,27 +98,20 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   // Refresh Employees
   const refreshEmployees = useCallback(async () => {
     setEmployeesError(null);
-    setEmployeesLoading(true);
     try {
       const data = await fetchEmployeesService();
       setEmployees(data.employees);
       _setEmployeeMetrics(data.metrics);
     } catch (error) {
       setEmployeesError(error instanceof Error ? error.message : 'Failed to refresh employees');
-    } finally {
-      setEmployeesLoading(false);
     }
   }, []);
 
   // Create Employee
   const createEmployee = useCallback(async (employeeData: CreateEmployeeData) => {
-    try {
-      const newEmployee = await createEmployeeService(employeeData);
-      setEmployees(prev => [...prev, newEmployee]);
-    } catch (error) {
-      throw error;
-    }
-  }, []);
+    await createEmployeeService(employeeData);
+    await refreshEmployees();
+  }, [refreshEmployees]);
 
   // Fetch Services
   const fetchServices = useCallback(async () => {
@@ -158,29 +137,19 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   // Refresh Services
   const refreshServices = useCallback(async () => {
     setServicesError(null);
-    setServicesLoading(true);
     try {
       const data = await fetchServicesService();
       setServices(data);
     } catch (error) {
       setServicesError(error instanceof Error ? error.message : 'Failed to refresh services');
-    } finally {
-      setServicesLoading(false);
     }
   }, []);
 
   // Create Service
   const createService = useCallback(async (serviceData: CreateServiceData) => {
-    try {
-      const newService = await createServiceService(serviceData);
-      setServices(prev => [...prev, { ...newService, employeeNames: serviceData.employeeIds.map(id => {
-        const employee = employees.find(e => e.id === id);
-        return employee ? employee.name : '';
-      }) } ]);
-    } catch (error) {
-      throw error;
-    }
-  }, [employees]);
+    await createServiceService(serviceData);
+    await Promise.all([refreshServices(), refreshEmployees(), refreshClients()]);
+  }, [refreshServices, refreshEmployees, refreshClients]);
 
  
 

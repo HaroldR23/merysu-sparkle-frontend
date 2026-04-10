@@ -5,7 +5,9 @@ export interface BackendEmployeeModel {
   worked_hours: number;
   employee_cost: number;
   services_count: number;
-  productivity?: number;
+  phone_number: string;
+  entry_date: string;
+  productivity: number;
 };
 
 export const fetchEmployeesService = async (): Promise<EmployeeDashboard> => {
@@ -30,7 +32,9 @@ export const fetchEmployeesService = async (): Promise<EmployeeDashboard> => {
         workedHours: emp.worked_hours,
         employeeCost: emp.employee_cost,
         servicesCount: emp.services_count,
+        phoneNumber: emp.phone_number,
         productivity: emp.productivity,
+        entryDate: emp.entry_date,
       })),
       metrics: {
         totalEmployees: data.summary.total_employees,

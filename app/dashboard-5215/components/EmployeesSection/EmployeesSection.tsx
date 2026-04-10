@@ -28,9 +28,9 @@ export function EmployeesSection() {
 
   const productivityData = employees.map(emp => ({
     name: emp.name.split(' ')[0],
-    productivity: emp.productivity,
+    productivity: emp.productivity * 100,
   }));
-
+  console.log('Employee Productivity Data:', productivityData);
   const totalEmployees = employeeMetrics?.totalEmployees || 0;
   const totalHours = employeeMetrics?.totalHours || 0;
   const totalCost = employeeMetrics?.totalCost || 0;
@@ -135,6 +135,12 @@ export function EmployeesSection() {
                     Nombre
                   </th>
                   <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Teléfono
+                  </th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    Fecha de Ingreso
+                  </th>
+                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Horas
                   </th>
                   <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -159,6 +165,12 @@ export function EmployeesSection() {
                           {employee.name}
                         </span>
                       </div>
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
+                      {employee.phoneNumber}
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
+                      {employee.entryDate}
                     </td>
                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
                       {employee.workedHours}h
@@ -186,7 +198,7 @@ export function EmployeesSection() {
             <BarChart data={productivityData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="name" stroke="#9ca3af" />
-              <YAxis stroke="#9ca3af" domain={[0, 100]} />
+              <YAxis stroke="#9ca3af" dataKey="productivity" domain={[0, 100]} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: '#fff', 
@@ -194,9 +206,9 @@ export function EmployeesSection() {
                   borderRadius: '8px',
                   boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
                 }}
-                formatter={(value: any) => [`${value}%`, 'Productividad']}
+                formatter={(value: any) => [`${value * 100}%`, 'Productividad']}
               />
-              <Bar dataKey="productividad" fill="#3b82f6" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="productivity" fill="#3b82f6" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

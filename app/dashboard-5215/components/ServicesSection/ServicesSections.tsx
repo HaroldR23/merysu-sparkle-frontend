@@ -17,6 +17,9 @@ export function ServicesSection() {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDateFilter, setShowDateFilter] = useState(false);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   useEffect(() => {
     if (!servicesHasFetched) {
@@ -24,10 +27,15 @@ export function ServicesSection() {
     }
   }, [servicesHasFetched, fetchServices]);
   
-  const filteredServices = services.filter(service =>
-    service.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    service.serviceType.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredServices = services.filter(service => {
+    const matchesSearch =
+      service.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      service.serviceType.toLowerCase().includes(searchTerm.toLowerCase());
+    const serviceDate = service.date.slice(0, 10);
+    const matchesFrom = dateFrom ? serviceDate >= dateFrom : true;
+    const matchesTo = dateTo ? serviceDate <= dateTo : true;
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   const getStatusColor = (estado: ServiceStatus) => {
     switch (estado) {
@@ -93,11 +101,48 @@ export function ServicesSection() {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
             />
           </div>
-          <button className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm">
-            <Calendar className="w-4 h-4 text-gray-600" />
+          <button
+            onClick={() => setShowDateFilter(prev => !prev)}
+            className={`flex items-center justify-center gap-2 px-4 py-2 border rounded-lg transition-colors text-sm ${
+              showDateFilter || dateFrom || dateTo
+                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                : 'border-gray-300 hover:bg-gray-50 text-gray-600'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
             <span>Filtrar por fecha</span>
           </button>
         </div>
+        {showDateFilter && (
+          <div className="flex flex-col sm:flex-row gap-3 mt-3 pt-3 border-t border-gray-100">
+            <div className="flex items-center gap-2 flex-1">
+              <label className="text-xs text-gray-500 whitespace-nowrap">Desde</label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              />
+            </div>
+            <div className="flex items-center gap-2 flex-1">
+              <label className="text-xs text-gray-500 whitespace-nowrap">Hasta</label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              />
+            </div>
+            {(dateFrom || dateTo) && (
+              <button
+                onClick={() => { setDateFrom(''); setDateTo(''); }}
+                className="px-3 py-2 text-xs text-gray-500 hover:text-gray-700 underline whitespace-nowrap"
+              >
+                Limpiar
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Services Table */}

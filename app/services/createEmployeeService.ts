@@ -14,6 +14,7 @@ export const createEmployeeService = async (employeeData: CreateEmployeeData): P
         services_count: 0,
         employee_cost: 0,
         worked_hours: 0,
+        entry_date: employeeData.entryDate,
       }),
     });
 
@@ -29,6 +30,8 @@ export const createEmployeeService = async (employeeData: CreateEmployeeData): P
       workedHours: data.worked_hours,
       employeeCost: data.employee_cost,
       servicesCount: data.services_count,
+      phoneNumber: data.phone_number,
+      entryDate: data.entry_date,
     };
 
     return newEmployee;
