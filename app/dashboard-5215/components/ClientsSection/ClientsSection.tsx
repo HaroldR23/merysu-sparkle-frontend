@@ -197,7 +197,7 @@ export function ClientsSection() {
                     ${client.totalBilling}
                   </td>
                   <td className="hidden md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">
-                    {new Date(client.lastService).toLocaleDateString('es-ES')}
+                    {new Date(client.lastService).toLocaleDateString('es-ES', { timeZone: 'UTC' })}
                   </td>
                   <td className="hidden lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${

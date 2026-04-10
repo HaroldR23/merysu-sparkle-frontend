@@ -11,9 +11,9 @@ const NewEmployeeModal = ({ onClose, onSave }: NewEmployeeModalProps) => {
   const [formData, setFormData] = useState<CreateEmployeeData>({
     name: '',
     phoneNumber: '',
-    entryDate: new Date().toISOString().split('T')[0], // This attribute is not implemented in the backend, but we can still include it in the form for future use.
-    status: 'activo', // This attribute is not implemented in the backend, but we can still include it in the form for future use.
-    notes: '', // This attribute is not implemented in the backend, but we can still include it in the form for future use.
+    entryDate: new Date().toISOString().split('T')[0],
+    status: 'activo',
+    notes: '',
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -122,7 +122,7 @@ const NewEmployeeModal = ({ onClose, onSave }: NewEmployeeModalProps) => {
                     className={iconInputClass('phoneNumber')}
                   />
                 </div>
-                {errors.telefono && <p className="text-xs text-red-500 mt-1">{errors.telefono}</p>}
+                {errors.phoneNumber && <p className="text-xs text-red-500 mt-1">{errors.phoneNumber}</p>}
               </div>
             </div>
           </section>
