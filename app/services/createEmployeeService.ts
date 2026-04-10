@@ -32,6 +32,7 @@ export const createEmployeeService = async (employeeData: CreateEmployeeData): P
       servicesCount: data.services_count,
       phoneNumber: data.phone_number,
       entryDate: data.entry_date,
+      productivity: 0
     };
 
     return newEmployee;
