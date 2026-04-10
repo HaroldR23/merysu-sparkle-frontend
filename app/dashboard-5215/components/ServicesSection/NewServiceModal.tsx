@@ -259,8 +259,6 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     value={formData.workedHours}
                     readOnly
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-default"
-                    step="0.5"
-                    min="0"
                   />
                 </div>
                 <div>
@@ -273,9 +271,6 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     onChange={(e) => setFormData({ ...formData, hourlyRate: Number(e.target.value) })}
                     onFocus={(e) => e.target.select()}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="0"
-                    step="10"
-                    min="0"
                   />
                 </div>
                 <div>
@@ -288,9 +283,6 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     onChange={(e) => setFormData({ ...formData, totalCost: Number(e.target.value) })}
                     onFocus={(e) => e.target.select()}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="0"
-                    step="10"
-                    min="0"
                     required
                   />
                 </div>
@@ -303,8 +295,6 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     value={formData.chargedPrice}
                     readOnly
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-default"
-                    step="0.01"
-                    min="0"
                   />
                 </div>
               </div>

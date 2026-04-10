@@ -17,7 +17,7 @@ export function NewClientModal({ onClose, onSave }: NewClientModalProps) {
     city: '',
     status: 'activo' as 'activo' | 'inactivo',
     notes: '',
-    lastService: new Date().toISOString().split('T')[0],
+    lastService: new Date().toLocaleDateString('en-CA'),
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
