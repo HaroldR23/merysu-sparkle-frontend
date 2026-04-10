@@ -111,7 +111,9 @@ export interface Employee {
   workedHours: number;
   employeeCost: number;
   servicesCount: number;
-  productivity?: number; // It is gonna be calculated in the backend. So far, it is not being sent by the API, but it is expected to be added in the future.
+  phoneNumber: string;
+  entryDate: string;
+  productivity: number; 
 }
 
 export interface CreateEmployeeData {
