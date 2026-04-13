@@ -1,4 +1,5 @@
 import { Service, ServiceStatus, ServiceType } from "../contexts/models";
+import { apiRequest } from "./helperFunction";
 
 // Backend response type (snake_case)
 export interface BackendServiceModel {
@@ -57,24 +58,6 @@ const mapBackendServiceToFrontend = (backendService: BackendServiceModel): Servi
 });
 
 export const fetchServicesService = async (): Promise<Service[]> => {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const responseText = await response.json();
-      throw new Error(responseText.detail || 'Failed to fetch services');
-    }
-
-    const data = await response.json();
-
-    // Map backend response to frontend format
-    return data.services.map(mapBackendServiceToFrontend);
-  } catch (error) {
-    throw error;
-  }
+  const data = await apiRequest<{ services: BackendServiceModel[] }>('/services');
+  return data.services.map(mapBackendServiceToFrontend);
 };

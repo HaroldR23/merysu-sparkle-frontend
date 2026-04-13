@@ -1,4 +1,5 @@
 import { Client, ClientStatus, ClientType, CreateClientData } from "../contexts/models";
+import { apiRequest } from "./helperFunction";
 
 export interface CreateClientBackend { 
   name: string;
@@ -47,33 +48,28 @@ export const mapToCreateClientBackend = (data: CreateClientData): CreateClientBa
   last_service_date: data.lastService,
 });
 
+interface BackendCreatedClient {
+  id: string;
+  name: string;
+  type: string;
+  last_service_date: string;
+  location: string;
+  status: string;
+}
+
 export const createClientService = async (clientData: CreateClientData): Promise<Client> => {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(mapToCreateClientBackend(clientData)),
-    });
-
-    if (!response.ok) {
-      const responseText = await response.json();
-      throw new Error(responseText.detail || 'Failed to create client');
-    }
-
-    const data = await response.json();
-    return {
-      id: data.id,
-      name: data.name,
-      type: typeTranslationsToSpa[data.type] ?? data.type,
-      totalServices: 0,
-      totalBilling: 0,
-      lastService: data.last_service_date,
-      address: data.location,
-      status: statusTranslationsToSpa[data.status] ?? data.status,
-    };
-  } catch (error) {
-    throw error;
-  }
+  const data = await apiRequest<BackendCreatedClient>('/customers', {
+    method: 'POST',
+    body: JSON.stringify(mapToCreateClientBackend(clientData)),
+  });
+  return {
+    id: data.id,
+    name: data.name,
+    type: typeTranslationsToSpa[data.type] ?? data.type,
+    totalServices: 0,
+    totalBilling: 0,
+    lastService: data.last_service_date,
+    address: data.location,
+    status: statusTranslationsToSpa[data.status] ?? data.status,
+  };
 };
