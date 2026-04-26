@@ -1,6 +1,7 @@
 'use client';
 
-import { LayoutDashboard, ClipboardList, Users, Building, DollarSign, FileText, Sparkles, X } from 'lucide-react';
+import { ClipboardList, Users, Building, Sparkles, X, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface SidebarProps {
   activeSection: string;
@@ -10,6 +11,13 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ activeSection, onNavigate, isOpen, onClose }: SidebarProps) => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/dashboard-5215/login');
+  };
+
   const menuItems = [
     // { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'services', label: 'Servicios', icon: ClipboardList },
@@ -76,6 +84,17 @@ const Sidebar = ({ activeSection, onNavigate, isOpen, onClose }: SidebarProps) =
           })}
         </ul>
       </nav>
+
+      {/* Logout */}
+      <div className="p-4 border-t border-gray-200">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+        >
+          <LogOut className="w-5 h-5" />
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
     </aside>
   );
 };

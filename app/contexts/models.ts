@@ -8,6 +8,12 @@ export type LanguageOption = {
   flag: string;
 }
 
+export interface AuthUser {
+  id: string;
+  name: string;
+  role: string;
+}
+
 // Dashboard Models
 
 export enum ServiceStatus {
