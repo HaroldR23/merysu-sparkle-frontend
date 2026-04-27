@@ -30,6 +30,7 @@ const ImageContent = ({ language }: { language: Languages }) => {
           height={600}
           alt="Cleaning Service" 
           className="relative rounded-3xl shadow-2xl w-full"
+          loading="eager"
         />
       </motion.div>
 
