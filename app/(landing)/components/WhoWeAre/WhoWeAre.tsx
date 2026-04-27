@@ -24,6 +24,7 @@ const WhoWeAre = ({ language }: { language: Languages }) => {
                   width={600}
                   height={400}
                   className="relative rounded-3xl shadow-2xl w-full"
+                  loading="eager"
                 />
               </div>
             </motion.div>
