@@ -10,6 +10,7 @@ export interface BackendClientModel {
   last_service_date: string;
   status: string;
   location?: string;
+  notes?: string;
 }
 
 interface BackendClientsResponse {
@@ -34,6 +35,7 @@ export const fetchClientsService = async (): Promise<ClientDashboard> => {
       lastService: customer.last_service_date,
       status: statusTranslationsToSpa[customer.status] ?? customer.status,
       address: customer.location,
+      notes: customer.notes,
     })),
     metrics: {
       totalClients: data.summary.total_clients,

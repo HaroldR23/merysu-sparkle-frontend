@@ -115,7 +115,7 @@ const localBusinessSchema = {
   telephone: '+16692780462',
   priceRange: '$$',
   currenciesAccepted: 'USD',
-  paymentAccepted: 'Cash, Credit Card, Zelle, Venmo',
+  paymentAccepted: 'Cash, Zelle',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'San Jose',

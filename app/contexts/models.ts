@@ -90,6 +90,7 @@ export interface Client {
   lastService: string;
   status: ClientStatus;
   address?: string;
+  notes?: string;
 }
 
 export interface ClientMetrics {

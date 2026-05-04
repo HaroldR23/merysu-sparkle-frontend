@@ -122,7 +122,7 @@ export function ClientsSection() {
             <span className="text-xs sm:text-sm text-gray-600">Ingreso Promedio por Cliente</span>
           </div>
           <p className="text-xl sm:text-2xl font-semibold text-gray-900">
-            ${averageBillingPerClient}
+            ${averageBillingPerClient != null ? Number(averageBillingPerClient).toFixed(2) : '—'}
           </p>
           <p className="text-xs text-gray-500 mt-1">Facturación media</p>
         </div>
@@ -166,6 +166,9 @@ export function ClientsSection() {
                 <th className="hidden lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Estado
                 </th>
+                <th className="hidden xl:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Notas
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -207,6 +210,9 @@ export function ClientsSection() {
                     }`}>
                       {client.status}
                     </span>
+                  </td>
+                  <td className="hidden xl:table-cell px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-500 max-w-xs">
+                    <span className="line-clamp-2">{client.notes ?? '—'}</span>
                   </td>
                 </tr>
               ))}

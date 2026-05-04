@@ -36,9 +36,9 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
     const toMinutes = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
     const diff = toMinutes(formData.endTime) - toMinutes(formData.startTime);
     const hours = diff > 0 ? Math.round(diff / 60) : 0;
-    const price = Math.round(hours * formData.hourlyRate * 100) / 100;
-    setFormData((prev) => ({ ...prev, workedHours: hours, chargedPrice: price }));
-  }, [formData.startTime, formData.endTime, formData.hourlyRate]);
+    const rate = hours > 0 ? Math.round((formData.chargedPrice / hours) * 100) / 100 : 0;
+    setFormData((prev) => ({ ...prev, workedHours: hours, hourlyRate: rate }));
+  }, [formData.startTime, formData.endTime, formData.chargedPrice]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -263,14 +263,28 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Precio Cobrado ($)
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.chargedPrice}
+                    onChange={(e) => setFormData({ ...formData, chargedPrice: Number(e.target.value) })}
+                    onFocus={(e) => e.target.select()}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Valor por Hora ($)
                   </label>
                   <input
                     type="number"
                     value={formData.hourlyRate}
-                    onChange={(e) => setFormData({ ...formData, hourlyRate: Number(e.target.value) })}
-                    onFocus={(e) => e.target.select()}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-default"
                   />
                 </div>
                 <div>
@@ -284,17 +298,6 @@ export function NewServiceModal({ onClose }: NewServiceModalProps) {
                     onFocus={(e) => e.target.select()}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Precio Cobrado ($)
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.chargedPrice}
-                    readOnly
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-600 cursor-default"
                   />
                 </div>
               </div>
