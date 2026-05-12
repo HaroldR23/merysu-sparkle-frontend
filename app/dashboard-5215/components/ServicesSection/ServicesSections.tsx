@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Search, Eye, Calendar } from 'lucide-react';
-import { NewServiceModal } from './NewServiceModal';
+import { Plus, Search, Calendar } from 'lucide-react';
 import { useDashboardContext } from '../../hooks/useDashboardContext';
 import { ServiceStatus } from '../../../contexts/models';
+import { NewServiceModal } from './NewServiceModal';
 
 export function ServicesSection() {
   const { 
@@ -83,8 +83,7 @@ export function ServicesSection() {
           className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
         >
           <Plus className="w-5 h-5" />
-          <span className="hidden sm:inline">Registrar Nuevo Servicio</span>
-          <span className="sm:hidden">Nuevo Servicio</span>
+          <span>Nuevo Servicio</span>
         </button>
       </div>
 
@@ -146,68 +145,68 @@ export function ServicesSection() {
       </div>
 
       {/* Services Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
+                <th className="sticky left-0 z-10 bg-gray-50 shadow-[1px_0_0_0_#e5e7eb] px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Cliente
+                </th>
                 <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Fecha
                 </th>
-                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Cliente
-                </th>
-                <th className="hidden md:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className=" md:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Tipo de Servicio
                 </th>
-                <th className="hidden lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className=" lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Empleados
                 </th>
-                <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className=" sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Horas
                 </th>
                 <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Ingreso
                 </th>
-                <th className="hidden md:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className=" md:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Costo
                 </th>
-                <th className="hidden lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className=" lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Margen
                 </th>
                 <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Estado
                 </th>
-                {/* <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Acciones
-                </th> */}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredServices.map((service) => (
-                <tr key={service.id} className="hover:bg-gray-50">
+                <tr
+                  key={service.id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                >
+                  <td className="sticky left-0 z-10 bg-white shadow-[1px_0_0_0_#e5e7eb] px-4 sm:px-6 py-4 text-sm font-medium text-gray-900">
+                    {service.customerName}
+                  </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {new Date(service.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })}
                   </td>
-                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {service.customerName}
-                  </td>
-                  <td className="hidden md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <td className=" md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {service.serviceType}
                   </td>
-                  <td className="hidden lg:table-cell px-4 sm:px-6 py-4 text-sm text-gray-600">
+                  <td className=" lg:table-cell px-4 sm:px-6 py-4 text-sm text-gray-600">
                     {service.employeeNames.join(', ')}
                   </td>
-                  <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className=" sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {service.workedHours}h
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
                     ${service.chargedPrice}
                   </td>
-                  <td className="hidden md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-red-600">
+                  <td className=" md:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-red-600">
                     ${service.totalCost}
                   </td>
-                  <td className="hidden lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className=" lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {service.margin ? service.margin.toFixed(1) : '0'}%
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
@@ -215,11 +214,6 @@ export function ServicesSection() {
                       {service.status}
                     </span>
                   </td>
-                  {/* <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
-                    <button className="text-blue-600 hover:text-blue-800 p-1">
-                      <Eye className="w-4 h-4" />
-                    </button>
-                  </td> */}
                 </tr>
               ))}
             </tbody>
